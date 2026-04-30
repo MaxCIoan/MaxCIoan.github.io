@@ -385,6 +385,99 @@
       width: 26%;
     }
 
+    .passport-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .passport {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 10px 28px rgba(18, 32, 47, 0.07);
+    }
+
+    .passport-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      gap: 14px;
+      padding: 16px 18px;
+      background: #eef7f6;
+      border-bottom: 1px solid #cfe3df;
+    }
+
+    .passport:nth-child(2) .passport-head {
+      background: #eef4ff;
+      border-bottom-color: #d5e2fb;
+    }
+
+    .passport:nth-child(3) .passport-head {
+      background: #fff6e8;
+      border-bottom-color: #f0ddbd;
+    }
+
+    .passport:nth-child(4) .passport-head {
+      background: #f1f6ed;
+      border-bottom-color: #d7e6cd;
+    }
+
+    .passport:nth-child(5) .passport-head {
+      background: #f4f1fb;
+      border-bottom-color: #ddd4f2;
+    }
+
+    .passport h3 {
+      margin: 0;
+      font-size: 21px;
+      line-height: 1.2;
+    }
+
+    .level {
+      flex: 0 0 auto;
+      padding: 5px 9px;
+      border-radius: 999px;
+      background: #fff;
+      border: 1px solid rgba(18, 32, 47, 0.12);
+      color: #25384a;
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .passport-body {
+      padding: 18px;
+      display: grid;
+      gap: 13px;
+    }
+
+    .passport-row {
+      display: grid;
+      grid-template-columns: 118px 1fr;
+      gap: 12px;
+      align-items: start;
+    }
+
+    .passport-label {
+      color: var(--teal);
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .passport-row p {
+      margin: 0;
+      color: #354555;
+    }
+
+    .passport-link {
+      padding-top: 2px;
+      font-weight: 800;
+    }
+
     .skills-layout {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -471,6 +564,10 @@
         grid-template-columns: 1fr;
       }
 
+      .passport-grid {
+        grid-template-columns: 1fr;
+      }
+
       .section-head {
         display: block;
       }
@@ -532,6 +629,11 @@
         display: block;
       }
 
+      .passport-row {
+        grid-template-columns: 1fr;
+        gap: 4px;
+      }
+
       .tag {
         display: inline-flex;
         margin-top: 10px;
@@ -552,8 +654,10 @@
       <div class="nav-links">
         <a href="#projects">Projects</a>
         <a href="#repos">Repos</a>
+        <a href="#project-passports">Passports</a>
         <a href="#skills">Skills</a>
         <a href="resume.html">Resume</a>
+        <a href="cover-letter.html">Cover Letter</a>
         <a href="mailto:Max.cozzone1@gmail.com">Contact</a>
       </div>
     </nav>
@@ -568,6 +672,7 @@
         <div class="actions">
           <a class="button" href="#projects">View Featured Projects</a>
           <a class="button secondary" href="resume.html">Open Resume</a>
+          <a class="button secondary" href="cover-letter.html">Open Cover Letter</a>
           <a class="button secondary" href="https://github.com/MaxCIoan">GitHub Profile</a>
         </div>
       </div>
@@ -701,6 +806,145 @@
       </table>
     </section>
 
+    <section class="section" id="project-passports" aria-labelledby="passports-title">
+      <div class="section-head">
+        <h2 id="passports-title">Project Passports 🧭</h2>
+        <p class="section-note">A deeper review guide: what each project was for, what I learned, where I am strongest, and what mistakes helped me improve.</p>
+      </div>
+
+      <div class="passport-grid">
+        <article class="passport">
+          <div class="passport-head">
+            <h3>🛡️ <a href="https://github.com/MaxCIoan/HIDS-Project">HIDS-Project</a></h3>
+            <span class="level">Strongest project</span>
+          </div>
+          <div class="passport-body">
+            <div class="passport-row">
+              <div class="passport-label">Goal</div>
+              <p>Build a Bash-based host intrusion detection lab that checks system health, files, services, processes, users, logs, and reports alerts clearly.</p>
+            </div>
+            <div class="passport-row">
+              <div class="passport-label">Learning</div>
+              <p>Linux monitoring, shell scripting structure, baseline comparison, alert logic, log formatting, and how SOC-style checks need repeatable output.</p>
+            </div>
+            <div class="passport-row">
+              <div class="passport-label">Strength</div>
+              <p>I am most comfortable explaining this project because it connects directly to blue-team work: observe, compare, document, alert, and escalate.</p>
+            </div>
+            <div class="passport-row">
+              <div class="passport-label">Mistakes fixed</div>
+              <p>I learned to avoid noisy checks, unclear report wording, and scripts that only work in one folder. The project improved by making output cleaner and behavior easier to review.</p>
+            </div>
+            <a class="passport-link" href="https://github.com/MaxCIoan/HIDS-Project">Open HIDS-Project →</a>
+          </div>
+        </article>
+
+        <article class="passport">
+          <div class="passport-head">
+            <h3>🐍 <a href="https://github.com/MaxCIoan/Python-Port-Scanner">Python-Port-Scanner</a></h3>
+            <span class="level">High confidence</span>
+          </div>
+          <div class="passport-body">
+            <div class="passport-row">
+              <div class="passport-label">Goal</div>
+              <p>Create a scanner to practice TCP/IP fundamentals, ports, services, socket behavior, and basic enumeration thinking.</p>
+            </div>
+            <div class="passport-row">
+              <div class="passport-label">Learning</div>
+              <p>Python sockets, connection timeouts, scan ranges, input validation, error handling, and why scan results need careful interpretation.</p>
+            </div>
+            <div class="passport-row">
+              <div class="passport-label">Strength</div>
+              <p>I can explain the security purpose, the networking basics behind it, and where tools like Nmap become more powerful in real operations.</p>
+            </div>
+            <div class="passport-row">
+              <div class="passport-label">Mistakes fixed</div>
+              <p>I learned that fast scans are not automatically good scans. Timeouts, blocked ports, and unreachable hosts can create false assumptions.</p>
+            </div>
+            <a class="passport-link" href="https://github.com/MaxCIoan/Python-Port-Scanner">Open Python-Port-Scanner →</a>
+          </div>
+        </article>
+
+        <article class="passport">
+          <div class="passport-head">
+            <h3>🌐 <a href="https://github.com/MaxCIoan/Packet-tracer-TEAM">Packet-tracer-TEAM</a></h3>
+            <span class="level">Team lab</span>
+          </div>
+          <div class="passport-body">
+            <div class="passport-row">
+              <div class="passport-label">Goal</div>
+              <p>Practice network design and configuration in Cisco Packet Tracer while producing work that can be reviewed by teammates and instructors.</p>
+            </div>
+            <div class="passport-row">
+              <div class="passport-label">Learning</div>
+              <p>Network layout, device roles, addressing, routing concepts, documentation discipline, and how small configuration errors can break connectivity.</p>
+            </div>
+            <div class="passport-row">
+              <div class="passport-label">Strength</div>
+              <p>I am comfortable discussing the network troubleshooting process: isolate the layer, verify addressing, check interfaces, then test path behavior.</p>
+            </div>
+            <div class="passport-row">
+              <div class="passport-label">Mistakes fixed</div>
+              <p>I learned to document assumptions earlier, label diagrams more clearly, and verify connectivity step by step instead of changing too many things at once.</p>
+            </div>
+            <a class="passport-link" href="https://github.com/MaxCIoan/Packet-tracer-TEAM">Open Packet-tracer-TEAM →</a>
+          </div>
+        </article>
+
+        <article class="passport">
+          <div class="passport-head">
+            <h3>📋 <a href="https://github.com/MaxCIoan/NIST-CIS-CIA">NIST-CIS-CIA</a></h3>
+            <span class="level">Framework basics</span>
+          </div>
+          <div class="passport-body">
+            <div class="passport-row">
+              <div class="passport-label">Goal</div>
+              <p>Show that I understand security is not only tools. It also requires controls, risk thinking, documentation, and business context.</p>
+            </div>
+            <div class="passport-row">
+              <div class="passport-label">Learning</div>
+              <p>NIST concepts, CIS controls, confidentiality, integrity, availability, and how frameworks guide technical priorities.</p>
+            </div>
+            <div class="passport-row">
+              <div class="passport-label">Strength</div>
+              <p>I can connect technical findings to risk language, which helps when documenting issues for managers, instructors, or Tier 2 teams.</p>
+            </div>
+            <div class="passport-row">
+              <div class="passport-label">Mistakes fixed</div>
+              <p>I learned to avoid vague security language and instead explain what is protected, what can fail, and what control helps reduce the risk.</p>
+            </div>
+            <a class="passport-link" href="https://github.com/MaxCIoan/NIST-CIS-CIA">Open NIST-CIS-CIA →</a>
+          </div>
+        </article>
+
+        <article class="passport">
+          <div class="passport-head">
+            <h3>🖥️ <a href="https://github.com/MaxCIoan/AD-max-Lab_Environment">AD-max-Lab_Environment</a></h3>
+            <span class="level">Growing area</span>
+          </div>
+          <div class="passport-body">
+            <div class="passport-row">
+              <div class="passport-label">Goal</div>
+              <p>Build familiarity with Active Directory lab concepts for enterprise IT, identity, Windows administration, and security operations context.</p>
+            </div>
+            <div class="passport-row">
+              <div class="passport-label">Learning</div>
+              <p>Domain environment planning, user and system administration concepts, lab notes, and how identity infrastructure matters for SOC work.</p>
+            </div>
+            <div class="passport-row">
+              <div class="passport-label">Strength</div>
+              <p>This is an area I am actively developing. It helps connect my IT support background to real enterprise security workflows.</p>
+            </div>
+            <div class="passport-row">
+              <div class="passport-label">Mistakes fixed</div>
+              <p>I learned that lab environments need clean setup notes, snapshots or rollback planning, and careful documentation so the work can be repeated.</p>
+            </div>
+            <a class="passport-link" href="https://github.com/MaxCIoan/AD-max-Lab_Environment">Open AD-max-Lab_Environment →</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
     <section class="section" id="skills" aria-labelledby="skills-title">
       <div class="section-head">
         <h2 id="skills-title">Skills Snapshot</h2>
@@ -748,6 +992,7 @@
       <div class="actions">
         <a class="button" href="mailto:Max.cozzone1@gmail.com">Email</a>
         <a class="button" href="resume.html">Resume</a>
+        <a class="button" href="cover-letter.html">Cover Letter</a>
       </div>
     </section>
   </main>
