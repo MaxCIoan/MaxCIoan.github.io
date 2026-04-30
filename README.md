@@ -19,14 +19,6 @@ Please view this first it gives access to all the information for my portfolio
 5. Project Passports explaining goal, learning, strength level, and mistakes/improvements.
 6. Tech stack, about, current focus, and contact footer.
 
-## Publish With GitHub Pages
-
-1. Create a public GitHub repository named `MaxCIoan.github.io`.
-2. Upload `index.html`, `resume.html`, `cover-letter.html`, the `assets` folder, and this `README.md` to the repository root.
-3. Open the repository settings.
-4. Go to `Pages`.
-5. Set the source to the `main` branch and root folder.
-6. After GitHub finishes publishing, open `(https://MaxCIoan.github.io)`.
 
 ## Featured Project Links
 
