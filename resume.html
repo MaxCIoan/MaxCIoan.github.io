@@ -1,0 +1,422 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Maximilian Cozzone - SOC Resume</title>
+  <style>
+    :root {
+      --ink: #101820;
+      --muted: #5d6874;
+      --line: #d9e0e7;
+      --paper: #ffffff;
+      --panel: #f5f7f9;
+      --navy: #0b1f33;
+      --teal: #0f766e;
+      --gold: #b98522;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: #e8edf2;
+      color: var(--ink);
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.35;
+    }
+
+    .page {
+      width: 210mm;
+      min-height: 297mm;
+      margin: 24px auto;
+      background: var(--paper);
+      box-shadow: 0 22px 60px rgba(16, 24, 32, 0.18);
+      display: grid;
+      grid-template-columns: 70mm 1fr;
+      overflow: hidden;
+    }
+
+    .sidebar {
+      background: var(--navy);
+      color: #fff;
+      padding: 23px 21px;
+      position: relative;
+    }
+
+    .sidebar::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 7px;
+      background: linear-gradient(90deg, var(--teal), var(--gold));
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      margin-bottom: 18px;
+    }
+
+    .mark {
+      width: 54px;
+      height: 54px;
+      border: 2px solid rgba(255, 255, 255, 0.84);
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      font-size: 18px;
+      background: rgba(255, 255, 255, 0.07);
+    }
+
+    .brand-name {
+      font-size: 12.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      line-height: 1.2;
+      letter-spacing: 0.7px;
+    }
+
+    .brand-sub {
+      color: #b9c6d1;
+      font-size: 10.5px;
+      margin-top: 4px;
+    }
+
+    .side-section {
+      border-top: 1px solid rgba(255, 255, 255, 0.14);
+      padding-top: 13px;
+      margin-top: 13px;
+    }
+
+    .side-title {
+      color: #fff;
+      font-size: 11.5px;
+      margin: 0 0 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .side-text,
+    .side-list {
+      color: #d7e0e8;
+      font-size: 11.5px;
+      margin: 0;
+    }
+
+    .side-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .side-list li {
+      margin: 7px 0;
+      padding-left: 13px;
+      position: relative;
+    }
+
+    .side-list li::before {
+      content: "";
+      width: 5px;
+      height: 5px;
+      background: var(--gold);
+      position: absolute;
+      left: 0;
+      top: 6px;
+    }
+
+    .chip-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .chip {
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #edf5f7;
+      font-size: 10.5px;
+      padding: 4px 7px;
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .main {
+      padding: 23px 29px 20px;
+    }
+
+    .hero {
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 12px;
+      margin-bottom: 13px;
+    }
+
+    h1 {
+      margin: 0;
+      color: var(--ink);
+      font-size: 31px;
+      line-height: 1.02;
+      text-transform: uppercase;
+      letter-spacing: 0;
+    }
+
+    .headline {
+      margin-top: 7px;
+      color: var(--teal);
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .summary {
+      margin: 9px 0 0;
+      color: #2f3b45;
+      font-size: 12.2px;
+    }
+
+    .section {
+      margin-top: 12px;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0 0 7px;
+      color: var(--navy);
+      font-size: 12.5px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .section-title::after {
+      content: "";
+      height: 1px;
+      flex: 1;
+      background: var(--line);
+    }
+
+    .role {
+      margin: 0 0 9px;
+      padding-left: 13px;
+      border-left: 3px solid var(--teal);
+    }
+
+    .role h3,
+    .project h3 {
+      margin: 0;
+      color: var(--ink);
+      font-size: 13.2px;
+    }
+
+    .meta {
+      color: var(--muted);
+      font-size: 11.5px;
+      margin: 2px 0 5px;
+    }
+
+    ul {
+      margin: 4px 0 0;
+      padding-left: 17px;
+    }
+
+    li {
+      margin: 2px 0;
+      font-size: 11.4px;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 7px 10px;
+    }
+
+    .project,
+    .fit-box {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      padding: 7px 9px;
+    }
+
+    .fit-box {
+      border-left: 5px solid var(--gold);
+      background: #fffaf1;
+    }
+
+    .project p {
+      color: #3b4650;
+      font-size: 11.3px;
+      margin: 4px 0 0;
+    }
+
+    @media print {
+      body { background: #fff; }
+      .page {
+        margin: 0;
+        width: 210mm;
+        min-height: 297mm;
+        box-shadow: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="mark">MC</div>
+        <div>
+          <div class="brand-name">Maximilian<br>Cozzone</div>
+          <div class="brand-sub">SOC T1 | IT | Cybersecurity</div>
+        </div>
+      </div>
+
+      <section class="side-section">
+        <h2 class="side-title">Contact</h2>
+        <p class="side-text">Brussels, Belgium / Allentown, PA</p>
+        <p class="side-text">+32 492 76 79 69</p>
+        <p class="side-text">Max.cozzone1@gmail.com</p>
+      </section>
+
+      <section class="side-section">
+        <h2 class="side-title">Target</h2>
+        <ul class="side-list">
+          <li>SOC Analyst T1</li>
+          <li>Junior Cybersecurity</li>
+          <li>Junior IT Support</li>
+        </ul>
+      </section>
+
+      <section class="side-section">
+        <h2 class="side-title">Core Tools</h2>
+        <div class="chip-grid">
+          <span class="chip">Log Review</span>
+          <span class="chip">Triage</span>
+          <span class="chip">SIEM</span>
+          <span class="chip">EDR</span>
+          <span class="chip">Linux</span>
+          <span class="chip">DHCP</span>
+          <span class="chip">RJ45</span>
+          <span class="chip">Wireshark</span>
+          <span class="chip">Nmap</span>
+          <span class="chip">Burp Suite</span>
+          <span class="chip">Bash</span>
+          <span class="chip">Python</span>
+        </div>
+      </section>
+
+      <section class="side-section">
+        <h2 class="side-title">Technical Base</h2>
+        <ul class="side-list">
+          <li>TCP/IP, DNS, DHCP, LAN/WAN</li>
+          <li>Routers, switches, VPN, firewall concepts</li>
+          <li>Services, ports, reports, packet analysis</li>
+          <li>Alert queues, playbooks, ticketing</li>
+          <li>Endpoint protection concepts</li>
+        </ul>
+      </section>
+
+      <section class="side-section">
+        <h2 class="side-title">Languages</h2>
+        <ul class="side-list">
+          <li>English: fluent</li>
+          <li>French: fluent</li>
+          <li>Dutch: basic</li>
+        </ul>
+      </section>
+    </aside>
+
+    <section class="main">
+      <header class="hero">
+        <h1>Maximilian Cozzone</h1>
+        <div class="headline">SOC Analyst T1 | Junior Cybersecurity | IT Support</div>
+        <p class="summary">Entry-level SOC candidate with IT support, networking, Linux, scripting, and security lab experience. Reliable in structured environments, comfortable with documentation, escalation, and shift-based work.</p>
+      </header>
+
+      <section class="section">
+        <h2 class="section-title">Education &amp; Training</h2>
+        <div class="fit-box">
+          <ul>
+            <li><strong>School:</strong> Southern New Hampshire University - B.S. Computer Science, Information Security.</li>
+            <li><strong>Training:</strong> BeCode - 7-month cybersecurity program, group projects, reports, presentations.</li>
+            <li><strong>Course topics:</strong> incident response, HIDS, vulnerabilities, remediation, legal/compliance, CCNA basics.</li>
+            <li><strong>Studying:</strong> CompTIA A+, Network+, Security+.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2 class="section-title">SOC Skills</h2>
+        <div class="fit-box">
+          <ul>
+            <li><strong>Investigation:</strong> logs, reports, network traffic, services, system behavior.</li>
+            <li><strong>Detection:</strong> Wireshark, Nmap, Burp Suite, TryHackMe, Hack The Box.</li>
+            <li><strong>Response:</strong> validate alerts, collect facts, document actions, escalate to Tier 2.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2 class="section-title">Experience</h2>
+        <article class="role">
+          <h3>Walmart Fulfillment Center - IT Support / System Operator</h3>
+          <div class="meta">Walmart Fulfillment Center, Bethlehem, PA | 2021-2025</div>
+          <ul>
+            <li>Supported 400+ warehouse devices: scanners, terminals, workstations.</li>
+            <li>Checked DHCP/IP issues, RJ45/Ethernet cabling, routers, switches.</li>
+            <li>Opened workstations, checked hardware, replaced internal components.</li>
+            <li>Documented issues and escalated when needed.</li>
+          </ul>
+        </article>
+
+        <article class="role">
+          <h3>Amazon Fulfillment Center - Process Assistant / Operations Lead</h3>
+          <div class="meta">Amazon Fulfillment Center, Breinigsville, PA | 2018-2020</div>
+          <ul>
+            <li>Supported 40+ associates during daily operations.</li>
+            <li>Coordinated workflow, priorities, training, quality, and deadlines.</li>
+            <li>Communicated with leadership and escalated blockers.</li>
+          </ul>
+        </article>
+
+        <article class="role">
+          <h3>United States Marine Corps - Infantry Marine</h3>
+          <div class="meta">United States Marine Corps | 2015-2018</div>
+          <ul>
+            <li>Discipline, accountability, procedure, teamwork, calm under pressure.</li>
+          </ul>
+        </article>
+      </section>
+
+      <section class="section">
+        <h2 class="section-title">Extra Knowledge</h2>
+        <div class="two-col">
+          <article class="project">
+            <h3>Projects</h3>
+            <p>Python port scanner; Bash HIDS scripts.</p>
+          </article>
+          <article class="project">
+            <h3>Practice</h3>
+            <p>TryHackMe, Hack The Box, ports, services, enumeration, reports.</p>
+          </article>
+          <article class="project">
+            <h3>Tools</h3>
+            <p>Nmap, Wireshark, Burp Suite, Linux, Bash, Python, SQL, Git/GitHub.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2 class="section-title">Languages &amp; Clearance</h2>
+        <div class="fit-box">
+          <ul>
+            <li>English: fluent | French: fluent | Dutch: basic | ESA/EU clearance procedure ready.</li>
+          </ul>
+        </div>
+      </section>
+    </section>
+  </main>
+</body>
+</html>
