@@ -25,10 +25,11 @@ Static GitHub Pages landing page for reviewing cybersecurity, IT support, networ
 3. Open the repository settings.
 4. Go to `Pages`.
 5. Set the source to the `main` branch and root folder.
-6. After GitHub finishes publishing, open `https://MaxCIoan.github.io`.
+6. After GitHub finishes publishing, open `(https://MaxCIoan.github.io)`.
 
 ## Featured Project Links
 
+- [Landing Page](https://MaxCIoan.github.io)
 - [HIDS-Project](https://github.com/MaxCIoan/HIDS-Project)
 - [Python-Port-Scanner](https://github.com/MaxCIoan/Python-Port-Scanner)
 - [Packet-tracer-TEAM](https://github.com/MaxCIoan/Packet-tracer-TEAM)
