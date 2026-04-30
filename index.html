@@ -957,11 +957,10 @@
         <p class="eyebrow">Ready For Review</p>
         <h2 id="contact-title">Explore the work. Ask questions. Open the repos.</h2>
         <p>Start with the HIDS project, then use the passport section to understand what I was trying to build, what I learned, and what I improved.</p>
-        <div class="email-line">Email: <a href="mailto:Max.cozzone1@gmail.com?subject=Portfolio%20Review">Max.cozzone1@gmail.com</a> <span class="copy-status" id="copy-status" aria-live="polite"></span></div>
+        <div class="email-line">Email: <span id="email-address">Max.cozzone1@gmail.com</span> <span class="copy-status" id="copy-status" aria-live="polite"></span></div>
       </div>
       <div class="button-row">
         <a class="button" href="https://mail.google.com/mail/?view=cm&fs=1&to=Max.cozzone1%40gmail.com&su=Portfolio%20Review" target="_blank" rel="noopener">Open Gmail</a>
-        <a class="button secondary" href="mailto:Max.cozzone1@gmail.com?subject=Portfolio%20Review">Email App</a>
         <button class="button secondary" type="button" id="copy-email" data-email="Max.cozzone1@gmail.com">Copy Email</button>
         <a class="button secondary" href="https://github.com/MaxCIoan">GitHub</a>
         <a class="button secondary" href="resume.html">Resume</a>
@@ -981,7 +980,20 @@
         const email = copyButton.dataset.email;
 
         try {
-          await navigator.clipboard.writeText(email);
+          if (navigator.clipboard && window.isSecureContext) {
+            await navigator.clipboard.writeText(email);
+          } else {
+            const textArea = document.createElement("textarea");
+            textArea.value = email;
+            textArea.setAttribute("readonly", "");
+            textArea.style.position = "fixed";
+            textArea.style.left = "-9999px";
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand("copy");
+            document.body.removeChild(textArea);
+          }
+
           copyStatus.textContent = "Copied.";
         } catch (error) {
           copyStatus.textContent = "Copy manually.";
