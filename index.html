@@ -217,6 +217,8 @@
       background: linear-gradient(135deg, var(--cyan), var(--teal));
       font-weight: 900;
       text-decoration: none;
+      font-family: inherit;
+      cursor: pointer;
       box-shadow: 0 0 30px rgba(0, 229, 255, 0.18);
       transition: transform 160ms ease, box-shadow 160ms ease;
     }
@@ -613,6 +615,22 @@
       color: #c2cedb;
     }
 
+    .email-line {
+      display: inline-flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      margin-top: 14px;
+      color: #e9f7fb;
+      font-weight: 800;
+    }
+
+    .copy-status {
+      color: var(--teal);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
     footer {
       padding: 22px 0 34px;
       color: var(--muted);
@@ -726,7 +744,7 @@
           <a class="button" href="#projects">🚀 View Projects</a>
           <a class="button secondary" href="#passports">🧭 Project Passports</a>
           <a class="button secondary" href="https://github.com/MaxCIoan">GitHub</a>
-          <a class="button secondary" href="https://mail.google.com/mail/?view=cm&fs=1&to=Max.cozzone1%40gmail.com&su=Portfolio%20Review">Contact</a>
+          <a class="button secondary" href="https://mail.google.com/mail/?view=cm&fs=1&to=Max.cozzone1%40gmail.com&su=Portfolio%20Review" target="_blank" rel="noopener">Contact</a>
         </div>
       </div>
 
@@ -939,10 +957,12 @@
         <p class="eyebrow">Ready For Review</p>
         <h2 id="contact-title">Explore the work. Ask questions. Open the repos.</h2>
         <p>Start with the HIDS project, then use the passport section to understand what I was trying to build, what I learned, and what I improved.</p>
+        <div class="email-line">Email: <a href="mailto:Max.cozzone1@gmail.com?subject=Portfolio%20Review">Max.cozzone1@gmail.com</a> <span class="copy-status" id="copy-status" aria-live="polite"></span></div>
       </div>
       <div class="button-row">
-        <a class="button" href="https://mail.google.com/mail/?view=cm&fs=1&to=Max.cozzone1%40gmail.com&su=Portfolio%20Review">Open Gmail</a>
+        <a class="button" href="https://mail.google.com/mail/?view=cm&fs=1&to=Max.cozzone1%40gmail.com&su=Portfolio%20Review" target="_blank" rel="noopener">Open Gmail</a>
         <a class="button secondary" href="mailto:Max.cozzone1@gmail.com?subject=Portfolio%20Review">Email App</a>
+        <button class="button secondary" type="button" id="copy-email" data-email="Max.cozzone1@gmail.com">Copy Email</button>
         <a class="button secondary" href="https://github.com/MaxCIoan">GitHub</a>
         <a class="button secondary" href="resume.html">Resume</a>
       </div>
@@ -952,5 +972,22 @@
   <footer>
     <div class="shell">(c) 2026 Maximilian Cozzone. GitHub: <a href="https://github.com/MaxCIoan">github.com/MaxCIoan</a></div>
   </footer>
+  <script>
+    const copyButton = document.getElementById("copy-email");
+    const copyStatus = document.getElementById("copy-status");
+
+    if (copyButton && copyStatus) {
+      copyButton.addEventListener("click", async () => {
+        const email = copyButton.dataset.email;
+
+        try {
+          await navigator.clipboard.writeText(email);
+          copyStatus.textContent = "Copied.";
+        } catch (error) {
+          copyStatus.textContent = "Copy manually.";
+        }
+      });
+    }
+  </script>
 </body>
 </html>
