@@ -1,7 +1,8 @@
 # Maximilian Cozzone Portfolio
 
 Static GitHub Pages landing page for reviewing cybersecurity, IT support, networking, and Python projects.
-
+Please view this first it gives access to all the information for my portfolio
+- [Landing Page - Resume - Cover letter - Projects ](https://MaxCIoan.github.io)
 ## Files
 
 - `index.html` - main portfolio landing page
@@ -29,7 +30,7 @@ Static GitHub Pages landing page for reviewing cybersecurity, IT support, networ
 
 ## Featured Project Links
 
-- [Landing Page](https://MaxCIoan.github.io)
+
 - [HIDS-Project](https://github.com/MaxCIoan/HIDS-Project)
 - [Python-Port-Scanner](https://github.com/MaxCIoan/Python-Port-Scanner)
 - [Packet-tracer-TEAM](https://github.com/MaxCIoan/Packet-tracer-TEAM)
