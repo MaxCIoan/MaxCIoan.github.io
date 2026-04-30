@@ -3,262 +3,319 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Maximilian Cozzone | Cybersecurity & IT Portfolio</title>
-  <meta name="description" content="Cybersecurity, IT support, networking, Linux, Bash, and Python project portfolio for Maximilian Cozzone.">
+  <title>Maximilian Cozzone | Cybersecurity Project Dashboard</title>
+  <meta name="description" content="Futuristic cybersecurity, IT support, networking, Linux, Bash, and Python project dashboard for Maximilian Cozzone.">
   <style>
     :root {
-      --ink: #12202f;
-      --muted: #5a6674;
-      --line: #d9e2ea;
-      --paper: #ffffff;
-      --wash: #f3f6f8;
-      --navy: #0d2338;
-      --teal: #0f766e;
-      --blue: #1d4ed8;
-      --gold: #b98522;
-      --green: #206a4b;
-      --shadow: 0 18px 55px rgba(18, 32, 47, 0.12);
+      --bg: #070b14;
+      --panel: rgba(17, 25, 42, 0.78);
+      --panel-solid: #101827;
+      --panel-soft: #151f33;
+      --line: rgba(111, 231, 255, 0.18);
+      --line-hot: rgba(0, 229, 255, 0.55);
+      --text: #f4f8fb;
+      --muted: #aab7c7;
+      --cyan: #00e5ff;
+      --teal: #2ee6b8;
+      --violet: #8b5cf6;
+      --amber: #f5b84b;
+      --green: #41e189;
+      --shadow: 0 24px 70px rgba(0, 0, 0, 0.35);
     }
 
     * {
       box-sizing: border-box;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       margin: 0;
-      color: var(--ink);
-      background: var(--wash);
-      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 12% 18%, rgba(0, 229, 255, 0.16), transparent 30%),
+        radial-gradient(circle at 84% 6%, rgba(139, 92, 246, 0.22), transparent 32%),
+        linear-gradient(180deg, #070b14 0%, #0b1020 46%, #080c15 100%);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
       line-height: 1.5;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(0, 229, 255, 0.055) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 229, 255, 0.055) 1px, transparent 1px);
+      background-size: 52px 52px;
+      mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.75), transparent 78%);
     }
 
     a {
-      color: var(--blue);
+      color: var(--cyan);
       text-decoration-thickness: 2px;
-      text-underline-offset: 3px;
+      text-underline-offset: 4px;
     }
 
     a:hover,
     a:focus {
-      color: #123a95;
+      color: #9af4ff;
+    }
+
+    .shell {
+      width: min(1180px, calc(100% - 36px));
+      margin: 0 auto;
     }
 
     .topbar {
-      background: var(--navy);
-      color: #fff;
-      border-bottom: 5px solid var(--teal);
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border-bottom: 1px solid var(--line);
+      background: rgba(7, 11, 20, 0.78);
+      backdrop-filter: blur(18px);
     }
 
     .nav {
-      width: min(1120px, calc(100% - 36px));
-      margin: 0 auto;
-      min-height: 66px;
+      min-height: 72px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 18px;
+      gap: 22px;
     }
 
     .brand {
       display: flex;
       align-items: center;
       gap: 12px;
-      min-width: 0;
-      color: #fff;
+      color: var(--text);
       text-decoration: none;
+      min-width: 0;
     }
 
     .avatar {
-      width: 42px;
-      height: 42px;
+      width: 44px;
+      height: 44px;
       border-radius: 50%;
-      border: 2px solid rgba(255, 255, 255, 0.75);
+      border: 2px solid rgba(0, 229, 255, 0.65);
       object-fit: cover;
-      background: #fff;
-      flex: 0 0 auto;
-    }
-
-    .brand-text {
-      display: grid;
-      gap: 1px;
-      min-width: 0;
+      box-shadow: 0 0 26px rgba(0, 229, 255, 0.28);
     }
 
     .brand-name {
-      font-weight: 800;
-      color: #fff;
+      display: block;
+      font-weight: 900;
+      letter-spacing: 0;
       white-space: nowrap;
     }
 
     .brand-role {
-      color: #c7d4df;
+      display: block;
+      color: var(--muted);
       font-size: 13px;
       white-space: nowrap;
     }
 
     .nav-links {
       display: flex;
-      align-items: center;
       justify-content: flex-end;
-      gap: 16px;
+      gap: 10px;
       flex-wrap: wrap;
-      font-size: 14px;
     }
 
-    .nav-links a {
-      color: #eef6fb;
+    .nav-links a,
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 34px;
+      padding: 7px 12px;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 999px;
+      color: #d9eef5;
+      background: rgba(255, 255, 255, 0.045);
       text-decoration: none;
-      border-bottom: 2px solid transparent;
-      padding: 4px 0;
+      font-size: 14px;
+      transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
     }
 
     .nav-links a:hover,
-    .nav-links a:focus {
-      border-color: var(--gold);
-    }
-
-    main {
-      width: min(1120px, calc(100% - 36px));
-      margin: 0 auto;
+    .nav-links a:focus,
+    .pill:hover,
+    .pill:focus {
+      transform: translateY(-1px);
+      border-color: var(--line-hot);
+      box-shadow: 0 0 24px rgba(0, 229, 255, 0.16);
+      color: #fff;
     }
 
     .hero {
       display: grid;
-      grid-template-columns: minmax(0, 1.25fr) minmax(280px, 0.75fr);
-      gap: 38px;
+      grid-template-columns: minmax(0, 0.95fr) minmax(340px, 1.05fr);
+      gap: 34px;
       align-items: center;
-      padding: 56px 0 42px;
+      padding: 58px 0 34px;
     }
 
+    .hero-copy {
+      position: relative;
+      z-index: 2;
+    }
+
+    .kicker,
     .eyebrow {
-      margin: 0 0 10px;
+      margin: 0 0 12px;
       color: var(--teal);
-      font-size: 14px;
+      font-family: "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+      font-size: 13px;
       font-weight: 800;
       text-transform: uppercase;
-      letter-spacing: 0.7px;
+      letter-spacing: 0.08em;
     }
 
     h1 {
       margin: 0;
-      max-width: 820px;
-      color: var(--ink);
-      font-size: clamp(36px, 5vw, 64px);
-      line-height: 1.02;
+      font-size: clamp(42px, 6vw, 74px);
+      line-height: 0.98;
       letter-spacing: 0;
     }
 
+    .gradient-text {
+      background: linear-gradient(90deg, #fff, var(--cyan), #c7b6ff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
     .lead {
-      max-width: 720px;
-      margin: 18px 0 0;
-      color: #334150;
+      margin: 20px 0 0;
+      max-width: 680px;
+      color: #c4d2df;
       font-size: 18px;
     }
 
-    .actions {
+    .button-row {
       display: flex;
       flex-wrap: wrap;
       gap: 12px;
-      margin-top: 24px;
+      margin-top: 26px;
     }
 
     .button {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-height: 44px;
-      padding: 10px 16px;
-      border-radius: 6px;
-      border: 1px solid var(--navy);
-      background: var(--navy);
-      color: #fff;
-      font-weight: 800;
+      min-height: 46px;
+      padding: 11px 16px;
+      border-radius: 8px;
+      border: 1px solid var(--line-hot);
+      color: #031119;
+      background: linear-gradient(135deg, var(--cyan), var(--teal));
+      font-weight: 900;
       text-decoration: none;
+      box-shadow: 0 0 30px rgba(0, 229, 255, 0.18);
+      transition: transform 160ms ease, box-shadow 160ms ease;
     }
 
     .button:hover,
     .button:focus {
-      background: #183a58;
-      color: #fff;
+      color: #031119;
+      transform: translateY(-2px);
+      box-shadow: 0 0 42px rgba(0, 229, 255, 0.32);
     }
 
     .button.secondary {
-      background: #fff;
-      color: var(--navy);
-      border-color: var(--line);
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(255, 255, 255, 0.13);
+      box-shadow: none;
     }
 
     .button.secondary:hover,
     .button.secondary:focus {
-      border-color: var(--navy);
-      color: var(--navy);
+      color: #fff;
+      border-color: var(--line-hot);
+      box-shadow: 0 0 28px rgba(0, 229, 255, 0.14);
     }
 
-    .profile-panel {
-      background: var(--paper);
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      box-shadow: var(--shadow);
+    .hero-visual {
+      position: relative;
+      min-height: 500px;
+      border: 1px solid rgba(0, 229, 255, 0.22);
+      border-radius: 18px;
       overflow: hidden;
+      background: #0b1120;
+      box-shadow: var(--shadow), 0 0 70px rgba(0, 229, 255, 0.12);
     }
 
-    .profile-banner {
-      height: 78px;
-      background: linear-gradient(90deg, var(--navy), var(--teal) 48%, var(--gold));
-    }
-
-    .profile-body {
-      padding: 0 22px 22px;
-    }
-
-    .profile-photo {
-      width: 88px;
-      height: 88px;
-      margin-top: -44px;
-      border-radius: 50%;
-      border: 4px solid #fff;
+    .hero-visual img {
+      width: 100%;
+      height: 100%;
+      min-height: 500px;
       object-fit: cover;
-      background: #fff;
+      display: block;
+      opacity: 0.92;
     }
 
-    .profile-body h2 {
-      margin: 10px 0 4px;
+    .status-card {
+      position: absolute;
+      left: 18px;
+      bottom: 18px;
+      right: 18px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      padding: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 14px;
+      background: rgba(4, 10, 20, 0.72);
+      backdrop-filter: blur(14px);
+    }
+
+    .metric {
+      padding: 12px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.055);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .metric strong {
+      display: block;
       font-size: 22px;
+      line-height: 1;
+      color: #fff;
     }
 
-    .profile-body p {
-      margin: 0;
+    .metric span {
+      display: block;
+      margin-top: 5px;
       color: var(--muted);
+      font-size: 12px;
     }
 
-    .quick-list {
-      margin: 18px 0 0;
-      padding: 0;
-      list-style: none;
-      display: grid;
-      gap: 9px;
-      color: #2f3b45;
-      font-size: 14px;
-    }
-
-    .quick-list li {
-      display: grid;
-      grid-template-columns: 18px 1fr;
-      gap: 9px;
-      align-items: start;
-    }
-
-    .dot {
-      width: 9px;
-      height: 9px;
-      margin-top: 7px;
-      background: var(--gold);
-      border-radius: 50%;
+    .quick-nav {
+      position: sticky;
+      top: 73px;
+      z-index: 15;
+      margin: 0 0 24px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(10, 16, 29, 0.76);
+      backdrop-filter: blur(18px);
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2);
     }
 
     .section {
-      padding: 36px 0;
-      border-top: 1px solid var(--line);
+      padding: 42px 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
     }
 
     .section-head {
@@ -266,123 +323,166 @@
       justify-content: space-between;
       align-items: end;
       gap: 24px;
-      margin-bottom: 18px;
+      margin-bottom: 20px;
     }
 
     .section h2 {
       margin: 0;
-      font-size: 30px;
-      line-height: 1.12;
+      font-size: clamp(28px, 4vw, 42px);
+      line-height: 1.05;
+      letter-spacing: 0;
     }
 
     .section-note {
       margin: 0;
-      max-width: 560px;
+      max-width: 600px;
       color: var(--muted);
     }
 
     .project-grid {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 16px;
     }
 
-    .project {
-      background: var(--paper);
+    .project-card,
+    .passport,
+    .stack-card,
+    .about-card,
+    .focus-card {
       border: 1px solid var(--line);
-      border-radius: 8px;
-      padding: 20px;
-      min-height: 238px;
+      border-radius: 16px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.085), rgba(255, 255, 255, 0.035));
+      box-shadow: 0 18px 48px rgba(0, 0, 0, 0.22);
+      backdrop-filter: blur(12px);
+    }
+
+    .project-card {
+      padding: 18px;
+      min-height: 290px;
       display: flex;
       flex-direction: column;
-      box-shadow: 0 10px 28px rgba(18, 32, 47, 0.07);
+      transition: transform 170ms ease, border-color 170ms ease, box-shadow 170ms ease;
+    }
+
+    .project-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--line-hot);
+      box-shadow: 0 0 42px rgba(0, 229, 255, 0.14);
     }
 
     .project-top {
       display: flex;
-      align-items: start;
       justify-content: space-between;
+      align-items: start;
       gap: 14px;
     }
 
-    .project h3 {
-      margin: 0;
+    .project-icon {
+      display: grid;
+      place-items: center;
+      width: 46px;
+      height: 46px;
+      flex: 0 0 auto;
+      border-radius: 14px;
+      background: rgba(0, 229, 255, 0.12);
+      border: 1px solid rgba(0, 229, 255, 0.26);
+      font-size: 24px;
+    }
+
+    .project-card h3 {
+      margin: 14px 0 8px;
       font-size: 21px;
       line-height: 1.2;
     }
 
-    .project h3 a {
-      color: var(--blue);
+    .project-card p {
+      margin: 0;
+      color: #c2cedb;
     }
 
-    .tag {
-      flex: 0 0 auto;
-      border: 1px solid #bcd1d1;
-      color: var(--teal);
-      background: #edf8f6;
-      border-radius: 999px;
-      padding: 4px 9px;
-      font-size: 12px;
-      font-weight: 800;
-      white-space: nowrap;
-    }
-
-    .project p {
-      margin: 13px 0 0;
-      color: #354555;
-    }
-
-    .skill-row {
+    .chip-row {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
+      margin-top: 16px;
+    }
+
+    .chip {
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 999px;
+      color: #dbe8ee;
+      background: rgba(255, 255, 255, 0.06);
+      padding: 5px 9px;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
       margin-top: auto;
       padding-top: 18px;
     }
 
-    .skill {
-      border: 1px solid #d7dde3;
-      border-radius: 999px;
-      padding: 5px 9px;
-      background: #f7f9fb;
-      color: #2c3b49;
-      font-size: 12px;
-      font-weight: 700;
-    }
-
-    .repo-table {
-      width: 100%;
-      border-collapse: collapse;
-      background: var(--paper);
-      border: 1px solid var(--line);
+    .mini-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 36px;
+      padding: 8px 11px;
       border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 10px 28px rgba(18, 32, 47, 0.07);
-    }
-
-    .repo-table th,
-    .repo-table td {
-      padding: 14px 16px;
-      border-bottom: 1px solid var(--line);
-      text-align: left;
-      vertical-align: top;
-    }
-
-    .repo-table th {
-      background: #edf2f6;
-      color: #243446;
-      font-size: 13px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .repo-table tr:last-child td {
-      border-bottom: 0;
-    }
-
-    .repo-table td:first-child {
+      border: 1px solid rgba(0, 229, 255, 0.26);
+      color: var(--cyan);
+      text-decoration: none;
       font-weight: 800;
-      width: 26%;
+      font-size: 13px;
+      background: rgba(0, 229, 255, 0.055);
+    }
+
+    .mini-link:hover,
+    .mini-link:focus {
+      background: rgba(0, 229, 255, 0.12);
+      color: #fff;
+    }
+
+    .banner-strip {
+      position: relative;
+      min-height: 160px;
+      border: 1px solid rgba(0, 229, 255, 0.22);
+      border-radius: 18px;
+      overflow: hidden;
+      background:
+        linear-gradient(90deg, rgba(0, 229, 255, 0.18), rgba(139, 92, 246, 0.16), rgba(46, 230, 184, 0.16)),
+        #0b1120;
+      display: grid;
+      place-items: center;
+      text-align: center;
+    }
+
+    .banner-strip::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+      background-size: 36px 36px;
+      transform: perspective(500px) rotateX(62deg) scale(1.6);
+      transform-origin: center bottom;
+      opacity: 0.55;
+    }
+
+    .banner-strip p {
+      position: relative;
+      margin: 0;
+      max-width: 760px;
+      padding: 28px;
+      color: #f7fbff;
+      font-family: "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+      font-size: clamp(20px, 3vw, 34px);
+      font-weight: 800;
     }
 
     .passport-grid {
@@ -392,11 +492,7 @@
     }
 
     .passport {
-      background: var(--paper);
-      border: 1px solid var(--line);
-      border-radius: 8px;
       overflow: hidden;
-      box-shadow: 0 10px 28px rgba(18, 32, 47, 0.07);
     }
 
     .passport-head {
@@ -405,45 +501,24 @@
       align-items: start;
       gap: 14px;
       padding: 16px 18px;
-      background: #eef7f6;
-      border-bottom: 1px solid #cfe3df;
-    }
-
-    .passport:nth-child(2) .passport-head {
-      background: #eef4ff;
-      border-bottom-color: #d5e2fb;
-    }
-
-    .passport:nth-child(3) .passport-head {
-      background: #fff6e8;
-      border-bottom-color: #f0ddbd;
-    }
-
-    .passport:nth-child(4) .passport-head {
-      background: #f1f6ed;
-      border-bottom-color: #d7e6cd;
-    }
-
-    .passport:nth-child(5) .passport-head {
-      background: #f4f1fb;
-      border-bottom-color: #ddd4f2;
+      border-bottom: 1px solid var(--line);
+      background: rgba(0, 229, 255, 0.08);
     }
 
     .passport h3 {
       margin: 0;
       font-size: 21px;
-      line-height: 1.2;
     }
 
     .level {
       flex: 0 0 auto;
       padding: 5px 9px;
+      border: 1px solid rgba(0, 229, 255, 0.26);
       border-radius: 999px;
-      background: #fff;
-      border: 1px solid rgba(18, 32, 47, 0.12);
-      color: #25384a;
+      color: #baf8ff;
+      background: rgba(0, 229, 255, 0.08);
       font-size: 12px;
-      font-weight: 800;
+      font-weight: 900;
       white-space: nowrap;
     }
 
@@ -457,93 +532,118 @@
       display: grid;
       grid-template-columns: 118px 1fr;
       gap: 12px;
-      align-items: start;
     }
 
     .passport-label {
       color: var(--teal);
+      font-family: "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
       font-size: 12px;
-      font-weight: 800;
+      font-weight: 900;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
     }
 
     .passport-row p {
       margin: 0;
-      color: #354555;
+      color: #c2cedb;
     }
 
-    .passport-link {
-      padding-top: 2px;
-      font-weight: 800;
-    }
-
-    .skills-layout {
+    .stack-grid,
+    .focus-grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 16px;
     }
 
-    .skill-column {
-      background: #fff;
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      padding: 18px;
+    .stack-card,
+    .focus-card,
+    .about-card {
+      padding: 20px;
     }
 
-    .skill-column h3 {
-      margin: 0 0 10px;
-      color: var(--green);
-      font-size: 17px;
+    .stack-card h3,
+    .focus-card h3,
+    .about-card h3 {
+      margin: 0 0 12px;
+      color: #fff;
+      font-size: 18px;
     }
 
-    .skill-column ul {
+    .stack-card ul,
+    .focus-card ul,
+    .about-card ul {
       margin: 0;
-      padding-left: 19px;
-      color: #354555;
+      padding-left: 18px;
+      color: #c2cedb;
     }
 
-    .contact-strip {
+    .about-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      gap: 16px;
+    }
+
+    .about-card p {
+      margin: 0 0 14px;
+      color: #c2cedb;
+    }
+
+    .contact-footer {
+      margin: 42px 0 54px;
+      padding: 28px;
+      border: 1px solid var(--line-hot);
+      border-radius: 20px;
+      background:
+        linear-gradient(135deg, rgba(0, 229, 255, 0.16), rgba(139, 92, 246, 0.11)),
+        rgba(9, 15, 28, 0.86);
+      box-shadow: 0 0 60px rgba(0, 229, 255, 0.12);
       display: grid;
       grid-template-columns: 1fr auto;
       gap: 24px;
       align-items: center;
-      background: var(--navy);
-      color: #fff;
-      border-radius: 8px;
-      padding: 24px;
-      margin: 10px 0 44px;
     }
 
-    .contact-strip h2 {
-      margin: 0 0 6px;
-      font-size: 24px;
+    .contact-footer h2 {
+      margin: 0 0 8px;
+      font-size: clamp(28px, 4vw, 44px);
+      line-height: 1.05;
     }
 
-    .contact-strip p {
+    .contact-footer p {
       margin: 0;
-      color: #cbd8e2;
-    }
-
-    .contact-strip .actions {
-      margin: 0;
-      justify-content: flex-end;
-    }
-
-    .contact-strip .button {
-      background: #fff;
-      color: var(--navy);
-      border-color: #fff;
+      color: #c2cedb;
     }
 
     footer {
       padding: 22px 0 34px;
-      border-top: 1px solid var(--line);
       color: var(--muted);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
       font-size: 14px;
     }
 
-    @media (max-width: 820px) {
+    @media (max-width: 960px) {
+      .hero,
+      .about-layout,
+      .contact-footer {
+        grid-template-columns: 1fr;
+      }
+
+      .project-grid,
+      .stack-grid,
+      .focus-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .hero-visual,
+      .hero-visual img {
+        min-height: 360px;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .shell {
+        width: min(100% - 24px, 1180px);
+      }
+
       .nav {
         align-items: flex-start;
         flex-direction: column;
@@ -554,18 +654,8 @@
         justify-content: flex-start;
       }
 
-      .hero,
-      .skills-layout,
-      .contact-strip {
-        grid-template-columns: 1fr;
-      }
-
-      .project-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .passport-grid {
-        grid-template-columns: 1fr;
+      .quick-nav {
+        position: static;
       }
 
       .section-head {
@@ -576,429 +666,290 @@
         margin-top: 8px;
       }
 
-      .repo-table,
-      .repo-table tbody,
-      .repo-table tr,
-      .repo-table td {
+      .project-grid,
+      .passport-grid,
+      .stack-grid,
+      .focus-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .status-card {
+        position: static;
+        grid-template-columns: 1fr;
+        margin: -10px 12px 12px;
+      }
+
+      .passport-head {
         display: block;
-        width: 100%;
       }
 
-      .repo-table thead {
-        display: none;
-      }
-
-      .repo-table tr {
-        border-bottom: 1px solid var(--line);
-      }
-
-      .repo-table td {
-        border-bottom: 0;
-        padding: 10px 14px;
-      }
-
-      .repo-table td:first-child {
-        width: 100%;
-        padding-top: 16px;
-      }
-
-      .contact-strip .actions {
-        justify-content: flex-start;
-      }
-    }
-
-    @media (max-width: 520px) {
-      main,
-      .nav {
-        width: min(100% - 24px, 1120px);
-      }
-
-      .brand-role {
-        white-space: normal;
-      }
-
-      .hero {
-        padding-top: 34px;
-      }
-
-      .project {
-        min-height: 0;
-      }
-
-      .project-top {
-        display: block;
+      .level {
+        display: inline-flex;
+        margin-top: 10px;
       }
 
       .passport-row {
         grid-template-columns: 1fr;
         gap: 4px;
       }
-
-      .tag {
-        display: inline-flex;
-        margin-top: 10px;
-      }
     }
   </style>
 </head>
 <body>
   <header class="topbar">
-    <nav class="nav" aria-label="Primary navigation">
+    <nav class="nav shell" aria-label="Primary navigation">
       <a class="brand" href="https://github.com/MaxCIoan">
         <img class="avatar" src="https://avatars.githubusercontent.com/u/119760322?v=4" alt="Maximilian Cozzone GitHub avatar">
-        <span class="brand-text">
+        <span>
           <span class="brand-name">Maximilian Cozzone</span>
-          <span class="brand-role">SOC Analyst T1 | Junior Cybersecurity | IT Support</span>
+          <span class="brand-role">Cybersecurity | IT Support | Project Builder</span>
         </span>
       </a>
       <div class="nav-links">
         <a href="#projects">Projects</a>
-        <a href="#repos">Repos</a>
-        <a href="#project-passports">Passports</a>
-        <a href="#skills">Skills</a>
+        <a href="#passports">Passports</a>
+        <a href="#stack">Stack</a>
+        <a href="#about">About</a>
         <a href="resume.html">Resume</a>
         <a href="cover-letter.html">Cover Letter</a>
-        <a href="mailto:Max.cozzone1@gmail.com">Contact</a>
       </div>
     </nav>
   </header>
 
-  <main>
+  <main class="shell">
     <section class="hero" aria-labelledby="page-title">
-      <div>
-        <p class="eyebrow">Cybersecurity, IT support, and networking portfolio</p>
-        <h1 id="page-title">Practical security projects built from Linux, Bash, Python, and network labs.</h1>
-        <p class="lead">I am an entry-level SOC and IT support candidate focused on alert investigation, host monitoring, network fundamentals, documentation, and hands-on lab work.</p>
-        <div class="actions">
-          <a class="button" href="#projects">View Featured Projects</a>
-          <a class="button secondary" href="resume.html">Open Resume</a>
-          <a class="button secondary" href="cover-letter.html">Open Cover Letter</a>
-          <a class="button secondary" href="https://github.com/MaxCIoan">GitHub Profile</a>
+      <div class="hero-copy">
+        <p class="kicker">🛰️ Portfolio Command Center</p>
+        <h1 id="page-title">I build practical security labs and turn learning into <span class="gradient-text">visible proof</span>.</h1>
+        <p class="lead">Hi, I’m Max. This dashboard is the front door to my GitHub work: blue-team monitoring, Python networking tools, Cisco labs, security frameworks, and Active Directory practice.</p>
+        <div class="button-row">
+          <a class="button" href="#projects">🚀 View Projects</a>
+          <a class="button secondary" href="#passports">🧭 Project Passports</a>
+          <a class="button secondary" href="https://github.com/MaxCIoan">GitHub</a>
+          <a class="button secondary" href="mailto:Max.cozzone1@gmail.com">Contact</a>
         </div>
       </div>
 
-      <aside class="profile-panel" aria-label="Profile summary">
-        <div class="profile-banner"></div>
-        <div class="profile-body">
-          <img class="profile-photo" src="https://avatars.githubusercontent.com/u/119760322?v=4" alt="Maximilian Cozzone GitHub profile photo">
-          <h2>Max Cozzone</h2>
-          <p>Brussels, Belgium / Allentown, PA</p>
-          <ul class="quick-list">
-            <li><span class="dot"></span><span>B.S. Computer Science, Information Security at Southern New Hampshire University</span></li>
-            <li><span class="dot"></span><span>BeCode cybersecurity training with HIDS, remediation, reporting, and compliance topics</span></li>
-            <li><span class="dot"></span><span>IT support background with warehouse devices, cabling, DHCP/IP checks, and escalation</span></li>
-          </ul>
+      <div class="hero-visual" aria-label="Futuristic cybersecurity dashboard visual">
+        <img src="assets/cyber-dashboard-hero.png" alt="Futuristic blue-team cybersecurity dashboard with holographic network map">
+        <div class="status-card" aria-label="Portfolio quick stats">
+          <div class="metric"><strong>5</strong><span>Featured repos</span></div>
+          <div class="metric"><strong>SOC</strong><span>Blue-team focus</span></div>
+          <div class="metric"><strong>Labs</strong><span>Built to learn</span></div>
         </div>
-      </aside>
+      </div>
     </section>
+
+    <nav class="quick-nav" aria-label="Dashboard quick access">
+      <a class="pill" href="#projects">⚡ Featured Projects</a>
+      <a class="pill" href="#passports">🧭 Project Passports</a>
+      <a class="pill" href="#stack">🧰 Tech Stack</a>
+      <a class="pill" href="#about">👤 About Me</a>
+      <a class="pill" href="#now">📡 Current Focus</a>
+      <a class="pill" href="#contact">✉️ Contact</a>
+    </nav>
 
     <section class="section" id="projects" aria-labelledby="projects-title">
       <div class="section-head">
-        <h2 id="projects-title">Featured Projects</h2>
-        <p class="section-note">These are the repos reviewers should open first. Each project is linked directly to GitHub, with the strongest work at the top.</p>
+        <div>
+          <p class="eyebrow">Mission Select</p>
+          <h2 id="projects-title">Featured Projects</h2>
+        </div>
+        <p class="section-note">These replace the generic repo feed. Each card points reviewers to a project with purpose, stack, and a direct source link.</p>
       </div>
 
       <div class="project-grid">
-        <article class="project">
-          <div class="project-top">
-            <h3><a href="https://github.com/MaxCIoan/HIDS-Project">HIDS-Project</a></h3>
-            <span class="tag">Blue Team</span>
-          </div>
-          <p>Bash-based host intrusion detection lab focused on Linux monitoring, file integrity, services, process checks, alerting, and operational reporting.</p>
-          <div class="skill-row">
-            <span class="skill">Linux</span>
-            <span class="skill">Bash</span>
-            <span class="skill">HIDS</span>
-            <span class="skill">Monitoring</span>
-          </div>
+        <article class="project-card">
+          <div class="project-top"><span class="project-icon">🛡️</span><span class="chip">Strongest</span></div>
+          <h3><a href="https://github.com/MaxCIoan/HIDS-Project">HIDS-Project</a></h3>
+          <p>Bash host intrusion detection lab for Linux monitoring, baselines, file integrity, service checks, and alert reports.</p>
+          <div class="chip-row"><span class="chip">Linux</span><span class="chip">Bash</span><span class="chip">HIDS</span><span class="chip">Blue Team</span></div>
+          <div class="card-actions"><a class="mini-link" href="https://github.com/MaxCIoan/HIDS-Project">Source Code</a><a class="mini-link" href="#hids-passport">Case Study</a></div>
         </article>
 
-        <article class="project">
-          <div class="project-top">
-            <h3><a href="https://github.com/MaxCIoan/Python-Port-Scanner">Python-Port-Scanner</a></h3>
-            <span class="tag">Python</span>
-          </div>
-          <p>Port scanning project that demonstrates sockets, service enumeration basics, network troubleshooting habits, and security tooling fundamentals.</p>
-          <div class="skill-row">
-            <span class="skill">Python</span>
-            <span class="skill">Sockets</span>
-            <span class="skill">TCP</span>
-            <span class="skill">Enumeration</span>
-          </div>
+        <article class="project-card">
+          <div class="project-top"><span class="project-icon">🐍</span><span class="chip">Networking</span></div>
+          <h3><a href="https://github.com/MaxCIoan/Python-Port-Scanner">Python-Port-Scanner</a></h3>
+          <p>Python socket scanner built to understand ports, services, timeouts, TCP behavior, and enumeration limits.</p>
+          <div class="chip-row"><span class="chip">Python</span><span class="chip">Sockets</span><span class="chip">TCP/IP</span><span class="chip">Nmap Concepts</span></div>
+          <div class="card-actions"><a class="mini-link" href="https://github.com/MaxCIoan/Python-Port-Scanner">Source Code</a><a class="mini-link" href="#scanner-passport">Case Study</a></div>
         </article>
 
-        <article class="project">
-          <div class="project-top">
-            <h3><a href="https://github.com/MaxCIoan/Packet-tracer-TEAM">Packet-tracer-TEAM</a></h3>
-            <span class="tag">Networking</span>
-          </div>
-          <p>Cisco Packet Tracer team project showing network design practice, device configuration, routing concepts, and documentation for technical review.</p>
-          <div class="skill-row">
-            <span class="skill">Cisco</span>
-            <span class="skill">Packet Tracer</span>
-            <span class="skill">Routing</span>
-            <span class="skill">Documentation</span>
-          </div>
+        <article class="project-card">
+          <div class="project-top"><span class="project-icon">🌐</span><span class="chip">Team Lab</span></div>
+          <h3><a href="https://github.com/MaxCIoan/Packet-tracer-TEAM">Packet-tracer-TEAM</a></h3>
+          <p>Cisco Packet Tracer work showing network design, addressing, routing concepts, and step-by-step troubleshooting.</p>
+          <div class="chip-row"><span class="chip">Cisco</span><span class="chip">Packet Tracer</span><span class="chip">Routing</span><span class="chip">Docs</span></div>
+          <div class="card-actions"><a class="mini-link" href="https://github.com/MaxCIoan/Packet-tracer-TEAM">Source Code</a><a class="mini-link" href="#packet-passport">Case Study</a></div>
         </article>
 
-        <article class="project">
-          <div class="project-top">
-            <h3><a href="https://github.com/MaxCIoan/NIST-CIS-CIA">NIST-CIS-CIA</a></h3>
-            <span class="tag">Governance</span>
-          </div>
-          <p>Security framework work covering NIST, CIS, and CIA concepts, useful for showing structured security thinking beyond tooling alone.</p>
-          <div class="skill-row">
-            <span class="skill">NIST</span>
-            <span class="skill">CIS</span>
-            <span class="skill">CIA Triad</span>
-            <span class="skill">Risk</span>
-          </div>
+        <article class="project-card">
+          <div class="project-top"><span class="project-icon">📋</span><span class="chip">Frameworks</span></div>
+          <h3><a href="https://github.com/MaxCIoan/NIST-CIS-CIA">NIST-CIS-CIA</a></h3>
+          <p>Security framework documentation connecting controls, risk, confidentiality, integrity, and availability to technical work.</p>
+          <div class="chip-row"><span class="chip">NIST</span><span class="chip">CIS</span><span class="chip">CIA Triad</span><span class="chip">Risk</span></div>
+          <div class="card-actions"><a class="mini-link" href="https://github.com/MaxCIoan/NIST-CIS-CIA">Source Code</a><a class="mini-link" href="#nist-passport">Case Study</a></div>
+        </article>
+
+        <article class="project-card">
+          <div class="project-top"><span class="project-icon">🖥️</span><span class="chip">Growing</span></div>
+          <h3><a href="https://github.com/MaxCIoan/AD-max-Lab_Environment">AD-max-Lab_Environment</a></h3>
+          <p>Active Directory lab notes for Windows administration, identity, domain concepts, and enterprise SOC context.</p>
+          <div class="chip-row"><span class="chip">Windows</span><span class="chip">AD</span><span class="chip">Identity</span><span class="chip">Enterprise IT</span></div>
+          <div class="card-actions"><a class="mini-link" href="https://github.com/MaxCIoan/AD-max-Lab_Environment">Source Code</a><a class="mini-link" href="#ad-passport">Case Study</a></div>
+        </article>
+
+        <article class="project-card">
+          <div class="project-top"><span class="project-icon">📈</span><span class="chip">Progress</span></div>
+          <h3><a href="https://github.com/MaxCIoan/my-progress">my-progress</a></h3>
+          <p>Learning record showing growth, notes, milestones, and the habit of tracking improvement over time.</p>
+          <div class="chip-row"><span class="chip">Learning</span><span class="chip">Notes</span><span class="chip">Reflection</span></div>
+          <div class="card-actions"><a class="mini-link" href="https://github.com/MaxCIoan/my-progress">Source Code</a></div>
         </article>
       </div>
     </section>
 
-    <section class="section" id="repos" aria-labelledby="repos-title">
-      <div class="section-head">
-        <h2 id="repos-title">Public Repo Directory</h2>
-        <p class="section-note">A clean index for recruiters, instructors, and reviewers who want to scan the work quickly.</p>
+    <section class="section" aria-label="Futuristic visual message">
+      <div class="banner-strip">
+        <p>&gt; building the future, one lab, one report, one clean escalation at a time</p>
       </div>
-
-      <table class="repo-table">
-        <thead>
-          <tr>
-            <th>Repository</th>
-            <th>Why it matters</th>
-            <th>Review priority</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><a href="https://github.com/MaxCIoan/HIDS-Project">HIDS-Project</a></td>
-            <td>Linux security monitoring, Bash scripting, integrity checks, alert/report workflow.</td>
-            <td>Highest</td>
-          </tr>
-          <tr>
-            <td><a href="https://github.com/MaxCIoan/Python-Port-Scanner">Python-Port-Scanner</a></td>
-            <td>Python networking, sockets, scan logic, and practical security tooling.</td>
-            <td>High</td>
-          </tr>
-          <tr>
-            <td><a href="https://github.com/MaxCIoan/Packet-tracer-TEAM">Packet-tracer-TEAM</a></td>
-            <td>Networking labs and Packet Tracer collaboration.</td>
-            <td>High</td>
-          </tr>
-          <tr>
-            <td><a href="https://github.com/MaxCIoan/NIST-CIS-CIA">NIST-CIS-CIA</a></td>
-            <td>Cybersecurity frameworks, controls, confidentiality, integrity, and availability.</td>
-            <td>Medium</td>
-          </tr>
-          <tr>
-            <td><a href="https://github.com/MaxCIoan/AD-max-Lab_Environment">AD-max-Lab_Environment</a></td>
-            <td>Active Directory lab environment work for Windows administration and enterprise security practice.</td>
-            <td>Medium</td>
-          </tr>
-          <tr>
-            <td><a href="https://github.com/MaxCIoan/my-progress">my-progress</a></td>
-            <td>Learning record and progress tracking.</td>
-            <td>Low</td>
-          </tr>
-        </tbody>
-      </table>
     </section>
 
-    <section class="section" id="project-passports" aria-labelledby="passports-title">
+    <section class="section" id="passports" aria-labelledby="passports-title">
       <div class="section-head">
-        <h2 id="passports-title">Project Passports 🧭</h2>
-        <p class="section-note">A deeper review guide: what each project was for, what I learned, where I am strongest, and what mistakes helped me improve.</p>
+        <div>
+          <p class="eyebrow">Proof Of Work</p>
+          <h2 id="passports-title">Project Passports</h2>
+        </div>
+        <p class="section-note">Each passport explains why the project exists, how well I understand it, and what mistakes improved the work.</p>
       </div>
 
       <div class="passport-grid">
-        <article class="passport">
-          <div class="passport-head">
-            <h3>🛡️ <a href="https://github.com/MaxCIoan/HIDS-Project">HIDS-Project</a></h3>
-            <span class="level">Strongest project</span>
-          </div>
+        <article class="passport" id="hids-passport">
+          <div class="passport-head"><h3>🛡️ <a href="https://github.com/MaxCIoan/HIDS-Project">HIDS-Project</a></h3><span class="level">Strongest project</span></div>
           <div class="passport-body">
-            <div class="passport-row">
-              <div class="passport-label">Goal</div>
-              <p>Build a Bash-based host intrusion detection lab that checks system health, files, services, processes, users, logs, and reports alerts clearly.</p>
-            </div>
-            <div class="passport-row">
-              <div class="passport-label">Learning</div>
-              <p>Linux monitoring, shell scripting structure, baseline comparison, alert logic, log formatting, and how SOC-style checks need repeatable output.</p>
-            </div>
-            <div class="passport-row">
-              <div class="passport-label">Strength</div>
-              <p>I am most comfortable explaining this project because it connects directly to blue-team work: observe, compare, document, alert, and escalate.</p>
-            </div>
-            <div class="passport-row">
-              <div class="passport-label">Mistakes fixed</div>
-              <p>I learned to avoid noisy checks, unclear report wording, and scripts that only work in one folder. The project improved by making output cleaner and behavior easier to review.</p>
-            </div>
-            <a class="passport-link" href="https://github.com/MaxCIoan/HIDS-Project">Open HIDS-Project →</a>
+            <div class="passport-row"><div class="passport-label">Goal</div><p>Build a Bash-based host intrusion detection lab that checks system health, files, services, processes, users, logs, and reports alerts clearly.</p></div>
+            <div class="passport-row"><div class="passport-label">Learning</div><p>Linux monitoring, shell scripting structure, baseline comparison, alert logic, log formatting, and how SOC-style checks need repeatable output.</p></div>
+            <div class="passport-row"><div class="passport-label">Strength</div><p>I am most comfortable explaining this project because it connects directly to blue-team work: observe, compare, document, alert, and escalate.</p></div>
+            <div class="passport-row"><div class="passport-label">Mistakes</div><p>I learned to avoid noisy checks, unclear report wording, and scripts that only work in one folder. Cleaner output made the project easier to review.</p></div>
           </div>
         </article>
 
-        <article class="passport">
-          <div class="passport-head">
-            <h3>🐍 <a href="https://github.com/MaxCIoan/Python-Port-Scanner">Python-Port-Scanner</a></h3>
-            <span class="level">High confidence</span>
-          </div>
+        <article class="passport" id="scanner-passport">
+          <div class="passport-head"><h3>🐍 <a href="https://github.com/MaxCIoan/Python-Port-Scanner">Python-Port-Scanner</a></h3><span class="level">High confidence</span></div>
           <div class="passport-body">
-            <div class="passport-row">
-              <div class="passport-label">Goal</div>
-              <p>Create a scanner to practice TCP/IP fundamentals, ports, services, socket behavior, and basic enumeration thinking.</p>
-            </div>
-            <div class="passport-row">
-              <div class="passport-label">Learning</div>
-              <p>Python sockets, connection timeouts, scan ranges, input validation, error handling, and why scan results need careful interpretation.</p>
-            </div>
-            <div class="passport-row">
-              <div class="passport-label">Strength</div>
-              <p>I can explain the security purpose, the networking basics behind it, and where tools like Nmap become more powerful in real operations.</p>
-            </div>
-            <div class="passport-row">
-              <div class="passport-label">Mistakes fixed</div>
-              <p>I learned that fast scans are not automatically good scans. Timeouts, blocked ports, and unreachable hosts can create false assumptions.</p>
-            </div>
-            <a class="passport-link" href="https://github.com/MaxCIoan/Python-Port-Scanner">Open Python-Port-Scanner →</a>
+            <div class="passport-row"><div class="passport-label">Goal</div><p>Create a scanner to practice TCP/IP fundamentals, ports, services, socket behavior, and basic enumeration thinking.</p></div>
+            <div class="passport-row"><div class="passport-label">Learning</div><p>Python sockets, connection timeouts, scan ranges, input validation, error handling, and why scan results need careful interpretation.</p></div>
+            <div class="passport-row"><div class="passport-label">Strength</div><p>I can explain the security purpose, the networking basics behind it, and where tools like Nmap become more powerful in real operations.</p></div>
+            <div class="passport-row"><div class="passport-label">Mistakes</div><p>I learned that fast scans are not automatically good scans. Timeouts, blocked ports, and unreachable hosts can create false assumptions.</p></div>
           </div>
         </article>
 
-        <article class="passport">
-          <div class="passport-head">
-            <h3>🌐 <a href="https://github.com/MaxCIoan/Packet-tracer-TEAM">Packet-tracer-TEAM</a></h3>
-            <span class="level">Team lab</span>
-          </div>
+        <article class="passport" id="packet-passport">
+          <div class="passport-head"><h3>🌐 <a href="https://github.com/MaxCIoan/Packet-tracer-TEAM">Packet-tracer-TEAM</a></h3><span class="level">Team lab</span></div>
           <div class="passport-body">
-            <div class="passport-row">
-              <div class="passport-label">Goal</div>
-              <p>Practice network design and configuration in Cisco Packet Tracer while producing work that can be reviewed by teammates and instructors.</p>
-            </div>
-            <div class="passport-row">
-              <div class="passport-label">Learning</div>
-              <p>Network layout, device roles, addressing, routing concepts, documentation discipline, and how small configuration errors can break connectivity.</p>
-            </div>
-            <div class="passport-row">
-              <div class="passport-label">Strength</div>
-              <p>I am comfortable discussing the network troubleshooting process: isolate the layer, verify addressing, check interfaces, then test path behavior.</p>
-            </div>
-            <div class="passport-row">
-              <div class="passport-label">Mistakes fixed</div>
-              <p>I learned to document assumptions earlier, label diagrams more clearly, and verify connectivity step by step instead of changing too many things at once.</p>
-            </div>
-            <a class="passport-link" href="https://github.com/MaxCIoan/Packet-tracer-TEAM">Open Packet-tracer-TEAM →</a>
+            <div class="passport-row"><div class="passport-label">Goal</div><p>Practice network design and configuration in Cisco Packet Tracer while producing work that can be reviewed by teammates and instructors.</p></div>
+            <div class="passport-row"><div class="passport-label">Learning</div><p>Network layout, device roles, addressing, routing concepts, documentation discipline, and how small configuration errors can break connectivity.</p></div>
+            <div class="passport-row"><div class="passport-label">Strength</div><p>I am comfortable discussing the network troubleshooting process: isolate the layer, verify addressing, check interfaces, then test path behavior.</p></div>
+            <div class="passport-row"><div class="passport-label">Mistakes</div><p>I learned to document assumptions earlier, label diagrams clearly, and verify connectivity step by step instead of changing too many things at once.</p></div>
           </div>
         </article>
 
-        <article class="passport">
-          <div class="passport-head">
-            <h3>📋 <a href="https://github.com/MaxCIoan/NIST-CIS-CIA">NIST-CIS-CIA</a></h3>
-            <span class="level">Framework basics</span>
-          </div>
+        <article class="passport" id="nist-passport">
+          <div class="passport-head"><h3>📋 <a href="https://github.com/MaxCIoan/NIST-CIS-CIA">NIST-CIS-CIA</a></h3><span class="level">Framework basics</span></div>
           <div class="passport-body">
-            <div class="passport-row">
-              <div class="passport-label">Goal</div>
-              <p>Show that I understand security is not only tools. It also requires controls, risk thinking, documentation, and business context.</p>
-            </div>
-            <div class="passport-row">
-              <div class="passport-label">Learning</div>
-              <p>NIST concepts, CIS controls, confidentiality, integrity, availability, and how frameworks guide technical priorities.</p>
-            </div>
-            <div class="passport-row">
-              <div class="passport-label">Strength</div>
-              <p>I can connect technical findings to risk language, which helps when documenting issues for managers, instructors, or Tier 2 teams.</p>
-            </div>
-            <div class="passport-row">
-              <div class="passport-label">Mistakes fixed</div>
-              <p>I learned to avoid vague security language and instead explain what is protected, what can fail, and what control helps reduce the risk.</p>
-            </div>
-            <a class="passport-link" href="https://github.com/MaxCIoan/NIST-CIS-CIA">Open NIST-CIS-CIA →</a>
+            <div class="passport-row"><div class="passport-label">Goal</div><p>Show that security is not only tools. It also requires controls, risk thinking, documentation, and business context.</p></div>
+            <div class="passport-row"><div class="passport-label">Learning</div><p>NIST concepts, CIS controls, confidentiality, integrity, availability, and how frameworks guide technical priorities.</p></div>
+            <div class="passport-row"><div class="passport-label">Strength</div><p>I can connect technical findings to risk language, which helps when documenting issues for managers, instructors, or Tier 2 teams.</p></div>
+            <div class="passport-row"><div class="passport-label">Mistakes</div><p>I learned to avoid vague security wording and instead explain what is protected, what can fail, and what control helps reduce the risk.</p></div>
           </div>
         </article>
 
-        <article class="passport">
-          <div class="passport-head">
-            <h3>🖥️ <a href="https://github.com/MaxCIoan/AD-max-Lab_Environment">AD-max-Lab_Environment</a></h3>
-            <span class="level">Growing area</span>
-          </div>
+        <article class="passport" id="ad-passport">
+          <div class="passport-head"><h3>🖥️ <a href="https://github.com/MaxCIoan/AD-max-Lab_Environment">AD-max-Lab_Environment</a></h3><span class="level">Growing area</span></div>
           <div class="passport-body">
-            <div class="passport-row">
-              <div class="passport-label">Goal</div>
-              <p>Build familiarity with Active Directory lab concepts for enterprise IT, identity, Windows administration, and security operations context.</p>
-            </div>
-            <div class="passport-row">
-              <div class="passport-label">Learning</div>
-              <p>Domain environment planning, user and system administration concepts, lab notes, and how identity infrastructure matters for SOC work.</p>
-            </div>
-            <div class="passport-row">
-              <div class="passport-label">Strength</div>
-              <p>This is an area I am actively developing. It helps connect my IT support background to real enterprise security workflows.</p>
-            </div>
-            <div class="passport-row">
-              <div class="passport-label">Mistakes fixed</div>
-              <p>I learned that lab environments need clean setup notes, snapshots or rollback planning, and careful documentation so the work can be repeated.</p>
-            </div>
-            <a class="passport-link" href="https://github.com/MaxCIoan/AD-max-Lab_Environment">Open AD-max-Lab_Environment →</a>
+            <div class="passport-row"><div class="passport-label">Goal</div><p>Build familiarity with Active Directory lab concepts for enterprise IT, identity, Windows administration, and security operations context.</p></div>
+            <div class="passport-row"><div class="passport-label">Learning</div><p>Domain environment planning, user and system administration concepts, lab notes, and how identity infrastructure matters for SOC work.</p></div>
+            <div class="passport-row"><div class="passport-label">Strength</div><p>This is an area I am actively developing. It connects my IT support background to real enterprise security workflows.</p></div>
+            <div class="passport-row"><div class="passport-label">Mistakes</div><p>I learned that labs need clean setup notes, rollback planning, and careful documentation so the work can be repeated.</p></div>
           </div>
         </article>
       </div>
     </section>
 
-    <section class="section" id="skills" aria-labelledby="skills-title">
+    <section class="section" id="stack" aria-labelledby="stack-title">
       <div class="section-head">
-        <h2 id="skills-title">Skills Snapshot</h2>
-        <p class="section-note">The page keeps the resume story and the GitHub project story aligned.</p>
+        <div>
+          <p class="eyebrow">Loadout</p>
+          <h2 id="stack-title">Tech Stack & Tools</h2>
+        </div>
+        <p class="section-note">Grouped for quick scanning by recruiters, instructors, and technical reviewers.</p>
       </div>
 
-      <div class="skills-layout">
-        <section class="skill-column">
-          <h3>Security Operations</h3>
-          <ul>
-            <li>Alert validation and escalation</li>
-            <li>Log review and reporting</li>
-            <li>HIDS and file integrity concepts</li>
-            <li>TryHackMe and Hack The Box practice</li>
-          </ul>
-        </section>
+      <div class="stack-grid">
+        <section class="stack-card"><h3>🛡️ Security Ops</h3><ul><li>Alert validation and escalation</li><li>Log review and reporting</li><li>HIDS and file integrity concepts</li><li>TryHackMe and Hack The Box</li></ul></section>
+        <section class="stack-card"><h3>🌐 Networking</h3><ul><li>TCP/IP, DNS, DHCP</li><li>Ports, services, enumeration</li><li>Cisco Packet Tracer</li><li>Routers, switches, cabling</li></ul></section>
+        <section class="stack-card"><h3>🧰 Tools</h3><ul><li>Linux and Kali</li><li>Bash and Python</li><li>Wireshark, Nmap, Burp Suite</li><li>Git and GitHub</li></ul></section>
+      </div>
+    </section>
 
-        <section class="skill-column">
-          <h3>IT & Networking</h3>
-          <ul>
-            <li>DHCP/IP troubleshooting</li>
-            <li>RJ45 and Ethernet cabling checks</li>
-            <li>Cisco Packet Tracer labs</li>
-            <li>Routers, switches, ports, and services</li>
-          </ul>
-        </section>
+    <section class="section" id="about" aria-labelledby="about-title">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Signal Profile</p>
+          <h2 id="about-title">About Me</h2>
+        </div>
+      </div>
 
-        <section class="skill-column">
-          <h3>Tools & Scripting</h3>
+      <div class="about-layout">
+        <section class="about-card">
+          <h3>👤 Max Cozzone</h3>
+          <p>Entry-level SOC and IT support candidate with hands-on operational experience, security lab work, and a strong habit of documenting what I build.</p>
+          <p>I use GitHub as proof of learning: not just final code, but the path from mistakes to cleaner, more useful technical work.</p>
+        </section>
+        <section class="about-card">
+          <h3>What I Want Reviewers To See</h3>
           <ul>
-            <li>Linux and Kali</li>
-            <li>Bash and Python</li>
-            <li>Wireshark, Nmap, Burp Suite</li>
-            <li>Git and GitHub documentation</li>
+            <li>I can follow process before acting.</li>
+            <li>I can document technical work in a way others can review.</li>
+            <li>I am building toward blue-team, IT support, and junior cybersecurity roles.</li>
           </ul>
+          <div class="button-row"><a class="button secondary" href="resume.html">Resume</a><a class="button secondary" href="cover-letter.html">Cover Letter</a></div>
         </section>
       </div>
     </section>
 
-    <section class="contact-strip" aria-labelledby="contact-title">
-      <div>
-        <h2 id="contact-title">Review the work or get in touch.</h2>
-        <p>Start with the HIDS project, then scan the repo directory for networking, Python, and framework work.</p>
+    <section class="section" id="now" aria-labelledby="now-title">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Current Work</p>
+          <h2 id="now-title">Now Building</h2>
+        </div>
       </div>
-      <div class="actions">
-        <a class="button" href="mailto:Max.cozzone1@gmail.com">Email</a>
-        <a class="button" href="resume.html">Resume</a>
-        <a class="button" href="cover-letter.html">Cover Letter</a>
+
+      <div class="focus-grid">
+        <section class="focus-card"><h3>🔨 Building</h3><ul><li>Cleaner HIDS reports</li><li>Portfolio project writeups</li><li>Better repo presentation</li></ul></section>
+        <section class="focus-card"><h3>📚 Learning</h3><ul><li>CompTIA A+, Network+, Security+ topics</li><li>Active Directory fundamentals</li><li>Incident response workflow</li></ul></section>
+        <section class="focus-card"><h3>📈 Improving</h3><ul><li>Documentation quality</li><li>Linux scripting habits</li><li>Network troubleshooting discipline</li></ul></section>
+      </div>
+    </section>
+
+    <section class="contact-footer" id="contact" aria-labelledby="contact-title">
+      <div>
+        <p class="eyebrow">Ready For Review</p>
+        <h2 id="contact-title">Explore the work. Ask questions. Open the repos.</h2>
+        <p>Start with the HIDS project, then use the passport section to understand what I was trying to build, what I learned, and what I improved.</p>
+      </div>
+      <div class="button-row">
+        <a class="button" href="mailto:Max.cozzone1@gmail.com">Email Me</a>
+        <a class="button secondary" href="https://github.com/MaxCIoan">GitHub</a>
+        <a class="button secondary" href="resume.html">Resume</a>
       </div>
     </section>
   </main>
 
   <footer>
-    <main>(c) 2026 Maximilian Cozzone. GitHub: <a href="https://github.com/MaxCIoan">github.com/MaxCIoan</a></main>
+    <div class="shell">(c) 2026 Maximilian Cozzone. GitHub: <a href="https://github.com/MaxCIoan">github.com/MaxCIoan</a></div>
   </footer>
 </body>
 </html>

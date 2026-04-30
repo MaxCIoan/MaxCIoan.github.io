@@ -7,11 +7,21 @@ Static GitHub Pages landing page for reviewing cybersecurity, IT support, networ
 - `index.html` - main portfolio landing page
 - `resume.html` - styled resume page copied from the Desktop `Resume` folder
 - `cover-letter.html` - general cover letter for cybersecurity, IT support, SOC, and technical roles
+- `assets/cyber-dashboard-hero.png` - futuristic hero image for the dashboard
+
+## Dashboard Layout
+
+1. Hero command center with direct project, GitHub, resume, cover letter, and contact links.
+2. Quick navigation for Featured Projects, Project Passports, Tech Stack, About Me, Current Focus, and Contact.
+3. Featured project cards with stack tags and source links.
+4. Futuristic visual strip for personality without hiding the work.
+5. Project Passports explaining goal, learning, strength level, and mistakes/improvements.
+6. Tech stack, about, current focus, and contact footer.
 
 ## Publish With GitHub Pages
 
 1. Create a public GitHub repository named `MaxCIoan.github.io`.
-2. Upload `index.html`, `resume.html`, `cover-letter.html`, and this `README.md` to the repository root.
+2. Upload `index.html`, `resume.html`, `cover-letter.html`, the `assets` folder, and this `README.md` to the repository root.
 3. Open the repository settings.
 4. Go to `Pages`.
 5. Set the source to the `main` branch and root folder.
