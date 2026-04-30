@@ -6,7 +6,7 @@ Please view this first it gives access to all the information for my portfolio
 ## Files
 
 - [index.html](https://github.com/MaxCIoan/MaxCIoan.github.io/blob/main/cover-letter.html) - main portfolio landing page
-- `resume.html` - styled resume page copied from the Desktop `Resume` folder
+- [resume.html](https://github.com/MaxCIoan/MaxCIoan.github.io/blob/main/resume.html)  - styled resume page copied from the Desktop `Resume` folder
 - `cover-letter.html` - general cover letter for cybersecurity, IT support, SOC, and technical roles
 - `assets/cyber-dashboard-hero.png` - futuristic hero image for the dashboard
 
