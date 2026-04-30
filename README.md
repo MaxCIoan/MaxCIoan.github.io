@@ -2,7 +2,7 @@
 
 Static GitHub Pages landing page for reviewing cybersecurity, IT support, networking, and Python projects.
 Please view this first it gives access to all the information for my portfolio
-- [Landing Page - Resume - Cover letter - Projects ](https://MaxCIoan.github.io)
+- [Landing Page - Resume - Cover letter - Projects - https://MaxCIoan.github.io](https://MaxCIoan.github.io)
 ## Files
 
 - `index.html` - main portfolio landing page
