@@ -345,6 +345,7 @@
           <div class="row">
             <button class="btn gold" id="signInBtn" type="button">Sign In</button>
             <button class="btn" id="signUpBtn" type="button">Sign Up</button>
+            <button class="btn hidden" id="verifyEmailBtn" type="button">Send Verification Email</button>
             <button class="btn danger hidden" id="signOutBtn" type="button">Sign Out</button>
           </div>
           <div class="status" id="authStatus"></div>
@@ -439,6 +440,7 @@
     const sendBtn = document.getElementById("sendBtn");
     const signInBtn = document.getElementById("signInBtn");
     const signUpBtn = document.getElementById("signUpBtn");
+    const verifyEmailBtn = document.getElementById("verifyEmailBtn");
     const signOutBtn = document.getElementById("signOutBtn");
     const emailInput = document.getElementById("email");
     const passwordInput = document.getElementById("password");
@@ -486,6 +488,7 @@
       signedInCard.classList.toggle("hidden", !signedIn);
       signInBtn.classList.toggle("hidden", signedIn);
       signUpBtn.classList.toggle("hidden", signedIn);
+      verifyEmailBtn.classList.toggle("hidden", !signedIn || user?.emailVerified);
       signOutBtn.classList.toggle("hidden", !signedIn);
       signedInEmail.textContent = user?.email || "";
       if (!signedIn) {
@@ -641,7 +644,7 @@
           setSignedInUi(user);
           conversationsPanel.classList.remove("hidden");
           adminPanel.classList.toggle("hidden", !isAdmin);
-          setStatus(authStatus, "");
+          setStatus(authStatus, user.emailVerified ? "" : "Email is not verified yet. Click Send Verification Email, then check Gmail and spam.");
 
           if (isAdmin) {
             chatTitle.textContent = "Admin inbox";
@@ -689,6 +692,16 @@
 
     signOutBtn.addEventListener("click", async () => {
       await signOut(auth);
+    });
+
+    verifyEmailBtn.addEventListener("click", async () => {
+      if (!auth?.currentUser) return;
+      try {
+        await sendEmailVerification(auth.currentUser);
+        setStatus(authStatus, "Verification email sent. Check Gmail, spam, and Promotions.");
+      } catch (error) {
+        setStatus(authStatus, `Verification email failed: ${error.message}`);
+      }
     });
 
     messageForm.addEventListener("submit", async (event) => {
