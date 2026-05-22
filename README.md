@@ -2,6 +2,11 @@
 
 Static GitHub Pages landing page for reviewing cybersecurity, IT support, networking, and Python projects.
 
+## Live Site
+
+- [Open the portfolio](https://MaxCIoan.github.io/)
+- [Open `index.html`](https://MaxCIoan.github.io/index.html)
+
 ## Files
 
 - `index.html` - main portfolio landing page
