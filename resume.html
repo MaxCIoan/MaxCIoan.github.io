@@ -26,6 +26,90 @@
       line-height: 1.35;
     }
 
+    .resume-actions {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 12px;
+      border-bottom: 1px solid rgba(11, 31, 51, 0.12);
+      background: rgba(232, 237, 242, 0.92);
+      backdrop-filter: blur(12px);
+    }
+
+    .resume-action {
+      position: relative;
+      overflow: hidden;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 40px;
+      padding: 10px 15px;
+      border: 1px solid rgba(11, 31, 51, 0.18);
+      border-radius: 3px;
+      color: var(--navy);
+      background: #fff;
+      font-family: "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform 0.18s, background 0.18s, border-color 0.18s;
+    }
+
+    .resume-action:hover,
+    .resume-action:focus {
+      transform: translateY(-1px);
+      border-color: rgba(185, 133, 34, 0.64);
+      background: #fff8e7;
+    }
+
+    .resume-action-gold {
+      color: #090703;
+      border-color: rgba(255, 222, 138, 0.9);
+      background:
+        linear-gradient(115deg, transparent 0 28%, rgba(255, 255, 255, 0.58) 38%, transparent 49%),
+        linear-gradient(180deg, #fff1a8 0%, #d8ad55 46%, #9b6b1f 100%);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.72),
+        inset 0 -1px 0 rgba(58, 37, 5, 0.36);
+    }
+
+    .resume-action-gold::before {
+      content: "";
+      position: absolute;
+      inset: -120% auto -120% -42%;
+      width: 34%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.72), transparent);
+      transform: rotate(18deg);
+      transition: left 0.46s ease;
+    }
+
+    .resume-action-gold:hover,
+    .resume-action-gold:focus {
+      background:
+        linear-gradient(115deg, transparent 0 24%, rgba(255, 255, 255, 0.62) 36%, transparent 48%),
+        linear-gradient(180deg, #ffeaa0 0%, #c9973c 48%, #70480f 100%);
+    }
+
+    .resume-action-gold:hover::before,
+    .resume-action-gold:focus::before {
+      left: 118%;
+    }
+
+    .resume-copy-status {
+      width: 100%;
+      min-height: 14px;
+      color: var(--navy);
+      font-size: 12px;
+      text-align: center;
+    }
+
     .page {
       width: 210mm;
       min-height: 297mm;
@@ -116,6 +200,21 @@
       margin: 7px 0;
       padding-left: 13px;
       position: relative;
+    }
+
+    @media print {
+      .resume-actions {
+        display: none;
+      }
+
+      body {
+        background: #fff;
+      }
+
+      .page {
+        margin: 0;
+        box-shadow: none;
+      }
     }
 
     .side-list li::before {
@@ -263,6 +362,13 @@
   </style>
 </head>
 <body>
+  <div class="resume-actions" aria-label="Resume actions">
+    <button class="resume-action resume-action-gold" type="button" data-download-resume>Download PDF</button>
+    <a class="resume-action" href="resume-pdf.html" target="_blank" rel="noopener">Preview PDF</a>
+    <a class="resume-action" id="gmailResumeLink" href="https://mail.google.com/mail/?view=cm&fs=1&su=Maximilian%20Cozzone%20Resume" target="_blank" rel="noopener">Open Gmail Draft</a>
+    <button class="resume-action" type="button" data-copy-resume-link>Copy Link</button>
+    <div class="resume-copy-status" id="copyStatus" aria-live="polite"></div>
+  </div>
   <main class="page">
     <aside class="sidebar">
       <div class="brand">
@@ -292,7 +398,7 @@
       <section class="side-section">
         <h2 class="side-title">Core Tools</h2>
         <div class="chip-grid">
-          <span class="chip">Log Review</span>
+          <span class="chip">Log WetfjghReview</span>
           <span class="chip">Triage</span>
           <span class="chip">SIEM</span>
           <span class="chip">EDR</span>
@@ -418,5 +524,72 @@
       </section>
     </section>
   </main>
+  <script>
+    const resumeFile = "Maximilian Cozzone - Resume.pdf";
+    const encodedResumeFile = "Maximilian%20Cozzone%20-%20Resume.pdf";
+    const publicResumeUrl = "https://MaxCIoan.github.io/Maximilian%20Cozzone%20-%20Resume.pdf";
+
+    function getResumeShareUrl() {
+      if (window.location.protocol === "http:" || window.location.protocol === "https:") {
+        return new URL(encodedResumeFile, window.location.href).href;
+      }
+
+      return publicResumeUrl;
+    }
+
+    async function downloadResume() {
+      try {
+        const response = await fetch(encodedResumeFile);
+        if (!response.ok) throw new Error("PDF fetch failed");
+        const blob = await response.blob();
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = resumeFile;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        URL.revokeObjectURL(url);
+      } catch (error) {
+        const link = document.createElement("a");
+        link.href = encodedResumeFile;
+        link.download = resumeFile;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+      }
+    }
+
+    document.querySelector("[data-download-resume]").addEventListener("click", downloadResume);
+
+    async function copyResumeLink() {
+      const resumeUrl = getResumeShareUrl();
+      try {
+        await navigator.clipboard.writeText(resumeUrl);
+      } catch (error) {
+        const textArea = document.createElement("textarea");
+        textArea.value = resumeUrl;
+        textArea.setAttribute("readonly", "");
+        textArea.style.position = "fixed";
+        textArea.style.left = "-9999px";
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand("copy");
+        document.body.removeChild(textArea);
+      }
+
+      document.getElementById("copyStatus").textContent = "Public resume link copied.";
+    }
+
+    document.querySelector("[data-copy-resume-link]").addEventListener("click", copyResumeLink);
+
+    const resumeUrl = getResumeShareUrl();
+    const gmailUrl = new URL("https://mail.google.com/mail/");
+    gmailUrl.searchParams.set("view", "cm");
+    gmailUrl.searchParams.set("fs", "1");
+    gmailUrl.searchParams.set("su", "Maximilian Cozzone Resume");
+    gmailUrl.searchParams.set("body", `Here is Maximilian Cozzone's resume:\n\n${resumeUrl}`);
+    document.getElementById("gmailResumeLink").href = gmailUrl.href;
+  </script>
 </body>
 </html>

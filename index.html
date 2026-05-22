@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Maximilian Cozzone | Security and IT Portfolio</title>
-  <meta name="description" content="Formal portfolio for Maximilian Cozzone, focused on cybersecurity, IT support, networking, Linux, Python, documentation, resume, and cover letter.">
+  <meta name="description" content="Maximilian Cozzone portfolio with cybersecurity, IT support, networking, Linux, Python, documentation, and project work.">
   <style>
     :root {
       --bg: #030407;
@@ -425,6 +425,8 @@
       border: 1px solid var(--gold-bdr);
       color: var(--gold2);
       background: transparent;
+      position: relative;
+      overflow: hidden;
     }
 
     .btn:hover,
@@ -445,6 +447,47 @@
     .btn-gold:focus {
       background: var(--gold2);
       border-color: var(--gold2);
+    }
+
+    .btn-download-gold {
+      color: #090703;
+      border-color: rgba(255, 222, 138, 0.88);
+      background:
+        linear-gradient(115deg, transparent 0 28%, rgba(255, 255, 255, 0.58) 38%, transparent 49%),
+        linear-gradient(180deg, #fff1a8 0%, #d8ad55 46%, #9b6b1f 100%);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.72),
+        inset 0 -1px 0 rgba(58, 37, 5, 0.36),
+        0 10px 28px rgba(216, 173, 85, 0.18);
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.38);
+    }
+
+    .btn-download-gold::before {
+      content: "";
+      position: absolute;
+      inset: -120% auto -120% -42%;
+      width: 34%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.72), transparent);
+      transform: rotate(18deg);
+      transition: left 0.46s ease;
+    }
+
+    .btn-download-gold:hover,
+    .btn-download-gold:focus {
+      color: #050403;
+      border-color: #ffe6a0;
+      background:
+        linear-gradient(115deg, transparent 0 24%, rgba(255, 255, 255, 0.62) 36%, transparent 48%),
+        linear-gradient(180deg, #ffeaa0 0%, #c9973c 48%, #70480f 100%);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.78),
+        inset 0 -1px 0 rgba(40, 25, 4, 0.45),
+        0 14px 34px rgba(216, 173, 85, 0.28);
+    }
+
+    .btn-download-gold:hover::before,
+    .btn-download-gold:focus::before {
+      left: 118%;
     }
 
     .hero-scroll {
@@ -952,6 +995,13 @@
       line-height: 1.75;
     }
 
+    .document-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
     .contact-panel {
       border: 1px solid var(--gold-bdr);
       background:
@@ -1240,6 +1290,10 @@
       .document-card {
         grid-template-columns: 1fr;
       }
+
+      .document-actions {
+        justify-content: flex-start;
+      }
     }
 
     @media (max-width: 700px) {
@@ -1376,10 +1430,11 @@
             <span class="l3">Portfolio</span>
           </h1>
           <span class="hero-subtitle">Practical work, written clearly</span>
-          <p class="hero-desc">A formal index of my cybersecurity, IT support, networking, Linux, Python, and documentation work. The purpose is simple: help a company, team, instructor, or reviewer understand how I learn, how I build, and how I explain technical work.</p>
+          <p class="hero-desc">I build practical security and IT labs around Linux, networking, Python, and documentation. My focus is simple: working projects, readable notes, and technical evidence that can be reviewed.</p>
           <div class="hero-actions">
-            <a class="btn btn-gold" href="#projects">Review Projects</a>
+            <a class="btn btn-gold" href="#projects">Project Lineup</a>
             <a class="btn" href="resume.html" target="_blank" rel="noopener">Open Resume</a>
+            <a class="btn btn-download-gold" href="resume-pdf.html" target="_blank" rel="noopener">PDF Options</a>
             <a class="btn" href="cover-letter.html" target="_blank" rel="noopener">Open Cover Letter</a>
             <a class="btn" href="https://github.com/MaxCIoan" target="_blank" rel="noopener">GitHub Profile</a>
           </div>
@@ -1395,38 +1450,50 @@
     <section class="section" id="about">
       <div class="section-inner">
         <div class="section-label">About</div>
-        <h2 class="section-title">What this <span class="hl">portfolio shows</span></h2>
+        <h2 class="section-title">Portfolio <span class="hl">at a glance</span></h2>
         <div class="title-rule"></div>
 
         <div class="about-grid">
           <article class="about-cell">
-            <div class="cell-label">Positioning</div>
-            <h3 class="cell-title">Built for hiring review</h3>
-            <div class="cell-body">This site is not a sales pitch for a product. It is a professional record of practical work aimed at entry-level SOC, IT support, technical support, and junior cybersecurity roles.</div>
+            <div class="cell-label">Projects</div>
+            <h3 class="cell-title">5 security and IT repos</h3>
+            <div class="cell-body">HIDS, port scanning, Packet Tracer, Active Directory, and security framework notes.</div>
           </article>
           <article class="about-cell">
-            <div class="cell-label">Working style</div>
-            <h3 class="cell-title">Evidence before claims</h3>
-            <div class="cell-body">Each project is meant to be opened, inspected, and discussed. I want reviewers to see code, notes, outputs, decisions, and the learning path behind the work.</div>
+            <div class="cell-label">Proof of work</div>
+            <h3 class="cell-title">Labs, PoCs, and outputs</h3>
+            <div class="cell-body">Code, reports, configuration notes, test paths, screenshots, and project decisions.</div>
           </article>
           <article class="about-cell">
-            <div class="cell-label">Core habits</div>
-            <h3 class="cell-title">Repeatable and readable</h3>
-            <div class="cell-body">
-              <ul>
-                <li>Document assumptions before changing systems.</li>
-                <li>Explain findings in plain technical language.</li>
-                <li>Improve scripts and notes after mistakes are found.</li>
-              </ul>
-            </div>
+            <div class="cell-label">Documentation</div>
+            <h3 class="cell-title">Clear notes and materials</h3>
+            <div class="cell-body">Project writeups, resume, cover letter, learning notes, and workflow pages.</div>
           </article>
         </div>
 
         <div class="stat-row" aria-label="Portfolio summary">
-          <div class="stat-cell"><span class="stat-num">5</span><span class="stat-lbl">Security and IT repos</span></div>
-          <div class="stat-cell"><span class="stat-num">3</span><span class="stat-lbl">Local portfolio tools</span></div>
-          <div class="stat-cell"><span class="stat-num">2</span><span class="stat-lbl">Application documents</span></div>
-          <div class="stat-cell"><span class="stat-num">1</span><span class="stat-lbl">Clear reviewer path</span></div>
+          <div class="stat-cell"><span class="stat-num">9</span><span class="stat-lbl">Project cards</span></div>
+          <div class="stat-cell"><span class="stat-num">5</span><span class="stat-lbl">GitHub repos</span></div>
+          <div class="stat-cell"><span class="stat-num">3</span><span class="stat-lbl">Tool pages</span></div>
+          <div class="stat-cell"><span class="stat-num">2</span><span class="stat-lbl">Documents</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="quick-contact">
+      <div class="section-inner">
+        <div class="contact-panel">
+          <div>
+            <div class="section-label">Next Step</div>
+            <h2>Start with the project lineup.</h2>
+            <p>Open HIDS first, then scan the networking, Python, Active Directory, framework, tooling, and documentation work.</p>
+            <div class="email-line">Email: <span>Max.cozzone1@gmail.com</span> <span class="copy-status" aria-live="polite"></span></div>
+          </div>
+          <div class="hero-actions">
+            <a class="btn btn-gold" href="#projects">View Lineup</a>
+            <a class="btn" href="https://mail.google.com/mail/?view=cm&fs=1&to=Max.cozzone1%40gmail.com&su=Portfolio%20Review" target="_blank" rel="noopener">Open Gmail</a>
+            <button class="btn copy-email" type="button" data-email="Max.cozzone1@gmail.com">Copy Email</button>
+          </div>
         </div>
       </div>
     </section>
@@ -1441,10 +1508,10 @@
           <div class="feature-left">
             <div class="feature-tagline">Strongest project</div>
             <h3 class="feature-title">A Linux host monitoring lab with <span>blue-team purpose</span>.</h3>
-            <p class="feature-desc">The HIDS project is the best place to begin because it connects Linux, Bash, baselines, services, processes, users, logs, file integrity, report wording, and alert review. It shows the kind of technical work I want to keep developing: practical, observable, repeatable, and clear enough for another person to review.</p>
+            <p class="feature-desc">HIDS is the strongest project: Bash scripts, Linux checks, baselines, file integrity, users, services, logs, and alert reporting in one lab.</p>
             <div class="hero-actions">
               <a class="btn btn-gold" href="https://github.com/MaxCIoan/HIDS-Project" target="_blank" rel="noopener">Open HIDS</a>
-              <a class="btn" href="#projects">See All Projects</a>
+              <a class="btn" href="#projects">Project Lineup</a>
             </div>
           </div>
           <div class="feature-right">
@@ -1453,8 +1520,8 @@
               <div class="feature-stat"><span class="feature-stat-num">Linux</span><span class="stat-lbl">Operating context</span></div>
               <div class="feature-stat"><span class="feature-stat-num">SOC</span><span class="stat-lbl">Role direction</span></div>
             </div>
-            <div class="feature-note">What improved: less noisy checks, clearer report language, better structure, and more attention to whether an output can support a real review or escalation.</div>
-            <div class="feature-note">Interview angle: ask me how I would reduce false positives, organize alert severity, or make the report easier for a Tier 1 analyst to understand.</div>
+            <div class="feature-note">What improved: less noisy checks, clearer report language, better structure, and outputs that are easier to review.</div>
+            <div class="feature-note">Review path: baseline, checks, alert output, report wording, and what changed between runs.</div>
           </div>
         </div>
       </div>
@@ -1463,7 +1530,7 @@
     <section class="section" id="projects">
       <div class="section-inner">
         <div class="section-label">Project Lineup</div>
-        <h2 class="section-title">Work by <span class="hl">skill area</span></h2>
+        <h2 class="section-title">Project <span class="hl">lineup</span></h2>
         <div class="title-rule"></div>
 
         <div class="filter-bar" id="filterBar" aria-label="Project filters">
@@ -1562,7 +1629,10 @@
               <h3>Resume</h3>
               <p>Structured resume for SOC, IT support, cybersecurity, and technical support roles.</p>
             </div>
-            <a class="btn btn-gold" href="resume.html" target="_blank" rel="noopener">Open Resume</a>
+            <div class="document-actions">
+              <a class="btn btn-gold" href="resume.html" target="_blank" rel="noopener">Open Resume</a>
+              <a class="btn btn-download-gold" href="resume-pdf.html" target="_blank" rel="noopener">PDF Options</a>
+            </div>
           </article>
           <article class="document-card">
             <div>
@@ -1580,13 +1650,13 @@
         <div class="contact-panel">
           <div>
             <div class="section-label">Contact</div>
-            <h2>Review the work. Ask me how it works.</h2>
-            <p>For a technical conversation, start with the HIDS project, then compare it with the port scanner, Packet Tracer work, and framework notes. The page is designed to keep the portfolio open while each project or document opens in a separate tab.</p>
-            <div class="email-line">Email: <span id="email-address">Max.cozzone1@gmail.com</span> <span class="copy-status" id="copy-status" aria-live="polite"></span></div>
+            <h2>Talk through the work.</h2>
+            <p>Best review path: HIDS, port scanner, Packet Tracer, Active Directory, framework notes, then documents.</p>
+            <div class="email-line">Email: <span>Max.cozzone1@gmail.com</span> <span class="copy-status" aria-live="polite"></span></div>
           </div>
           <div class="hero-actions">
             <a class="btn btn-gold" href="https://mail.google.com/mail/?view=cm&fs=1&to=Max.cozzone1%40gmail.com&su=Portfolio%20Review" target="_blank" rel="noopener">Open Gmail</a>
-            <button class="btn" type="button" id="copy-email" data-email="Max.cozzone1@gmail.com">Copy Email</button>
+            <button class="btn copy-email" type="button" data-email="Max.cozzone1@gmail.com">Copy Email</button>
           </div>
         </div>
       </div>
@@ -2012,10 +2082,11 @@
       setInterval(spawnSpark, 2200);
     }
 
-    const copyButton = document.getElementById("copy-email");
-    const copyStatus = document.getElementById("copy-status");
+    document.querySelectorAll(".copy-email").forEach((copyButton) => {
+      const copyStatus = copyButton.closest(".contact-panel")?.querySelector(".copy-status");
 
-    if (copyButton && copyStatus) {
+      if (!copyStatus) return;
+
       copyButton.addEventListener("click", async () => {
         const email = copyButton.dataset.email;
 
@@ -2039,7 +2110,7 @@
           copyStatus.textContent = "Copy manually.";
         }
       });
-    }
+    });
   </script>
 </body>
 </html>

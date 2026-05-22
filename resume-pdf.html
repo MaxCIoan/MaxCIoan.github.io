@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Maximilian Cozzone - Resume PDF</title>
+  <style>
+    :root {
+      --bg: #090b10;
+      --surface: #111720;
+      --surface2: #17202c;
+      --text: #f7f2e8;
+      --muted: #aeb8c5;
+      --gold: #d8ad55;
+      --gold2: #ffe6a0;
+      --border: rgba(255, 255, 255, 0.14);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 20% 10%, rgba(216, 173, 85, 0.18), transparent 32%),
+        linear-gradient(135deg, #07080c 0%, #121923 48%, #07080c 100%);
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      border-bottom: 1px solid var(--border);
+      background: rgba(9, 11, 16, 0.92);
+      backdrop-filter: blur(14px);
+    }
+
+    .topbar-inner {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 14px 0;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 16px;
+      align-items: center;
+    }
+
+    h1 {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(22px, 4vw, 34px);
+      letter-spacing: 0;
+    }
+
+    .sub {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .btn {
+      position: relative;
+      overflow: hidden;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      padding: 11px 16px;
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.05);
+      font-family: "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: color 0.18s, background 0.18s, border-color 0.18s, transform 0.18s;
+      cursor: pointer;
+    }
+
+    .btn:hover,
+    .btn:focus {
+      transform: translateY(-1px);
+      border-color: rgba(216, 173, 85, 0.72);
+      background: rgba(216, 173, 85, 0.14);
+    }
+
+    .btn-gold {
+      color: #090703;
+      border-color: rgba(255, 222, 138, 0.88);
+      background:
+        linear-gradient(115deg, transparent 0 28%, rgba(255, 255, 255, 0.58) 38%, transparent 49%),
+        linear-gradient(180deg, #fff1a8 0%, #d8ad55 46%, #9b6b1f 100%);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.72),
+        inset 0 -1px 0 rgba(58, 37, 5, 0.36),
+        0 10px 28px rgba(216, 173, 85, 0.18);
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.38);
+    }
+
+    .btn-gold::before {
+      content: "";
+      position: absolute;
+      inset: -120% auto -120% -42%;
+      width: 34%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.72), transparent);
+      transform: rotate(18deg);
+      transition: left 0.46s ease;
+    }
+
+    .btn-gold:hover,
+    .btn-gold:focus {
+      color: #050403;
+      border-color: #ffe6a0;
+      background:
+        linear-gradient(115deg, transparent 0 24%, rgba(255, 255, 255, 0.62) 36%, transparent 48%),
+        linear-gradient(180deg, #ffeaa0 0%, #c9973c 48%, #70480f 100%);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.78),
+        inset 0 -1px 0 rgba(40, 25, 4, 0.45),
+        0 14px 34px rgba(216, 173, 85, 0.28);
+    }
+
+    .btn-gold:hover::before,
+    .btn-gold:focus::before {
+      left: 118%;
+    }
+
+    .email-panel {
+      border-bottom: 1px solid var(--border);
+      background: rgba(17, 23, 32, 0.82);
+    }
+
+    .email-inner {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 12px 0;
+      display: grid;
+      grid-template-columns: minmax(180px, 280px) minmax(180px, 1fr) auto auto;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .copy-status {
+      width: min(1180px, calc(100% - 32px));
+      margin: -4px auto 10px;
+      color: var(--gold2);
+      font-size: 12px;
+      min-height: 16px;
+    }
+
+    input {
+      width: 100%;
+      min-height: 42px;
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 10px 12px;
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.06);
+      font: inherit;
+    }
+
+    input:focus {
+      outline: 2px solid rgba(216, 173, 85, 0.42);
+      border-color: rgba(216, 173, 85, 0.72);
+    }
+
+    .viewer {
+      width: min(1180px, calc(100% - 32px));
+      height: calc(100vh - 158px);
+      min-height: 560px;
+      margin: 18px auto;
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.28);
+    }
+
+    .viewer iframe,
+    .viewer object {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+      background: #fff;
+    }
+
+    .fallback {
+      padding: 26px;
+      color: var(--muted);
+    }
+
+    @media (max-width: 760px) {
+      .topbar-inner,
+      .email-inner {
+        grid-template-columns: 1fr;
+      }
+
+      .actions {
+        justify-content: flex-start;
+      }
+
+      .viewer {
+        width: 100%;
+        height: calc(100vh - 248px);
+        min-height: 420px;
+        margin: 0;
+        border-left: 0;
+        border-right: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div>
+        <h1>Resume PDF</h1>
+        <div class="sub">Preview, download to device, or open a Gmail draft with the resume link.</div>
+      </div>
+      <div class="actions" aria-label="Resume PDF actions">
+        <button class="btn btn-gold" type="button" data-download-resume>Download PDF</button>
+        <a class="btn" href="resume.html" target="_blank" rel="noopener">HTML Resume</a>
+        <a class="btn" href="Maximilian%20Cozzone%20-%20Resume.pdf" target="_blank" rel="noopener">Open PDF</a>
+      </div>
+    </div>
+  </header>
+
+  <form class="email-panel" id="emailForm">
+    <div class="email-inner">
+      <input id="emailTo" name="emailTo" type="email" placeholder="Recipient email">
+      <input id="emailNote" name="emailNote" type="text" placeholder="Optional message">
+      <button class="btn" type="submit">Open Gmail Draft</button>
+      <button class="btn" type="button" data-copy-resume-link>Copy Link</button>
+    </div>
+    <div class="copy-status" id="copyStatus" aria-live="polite"></div>
+  </form>
+
+  <main class="viewer" aria-label="Resume PDF preview">
+    <object data="Maximilian%20Cozzone%20-%20Resume.pdf" type="application/pdf">
+      <div class="fallback">
+        PDF preview is not available in this browser.
+        <button class="btn btn-gold" type="button" data-download-resume>Download PDF</button>
+      </div>
+    </object>
+  </main>
+
+  <script>
+    const resumeFile = "Maximilian Cozzone - Resume.pdf";
+    const encodedResumeFile = "Maximilian%20Cozzone%20-%20Resume.pdf";
+    const publicResumeUrl = "https://MaxCIoan.github.io/Maximilian%20Cozzone%20-%20Resume.pdf";
+
+    function getResumeShareUrl() {
+      if (window.location.protocol === "http:" || window.location.protocol === "https:") {
+        return new URL(encodedResumeFile, window.location.href).href;
+      }
+
+      return publicResumeUrl;
+    }
+
+    async function downloadResume() {
+      try {
+        const response = await fetch(encodedResumeFile);
+        if (!response.ok) throw new Error("PDF fetch failed");
+        const blob = await response.blob();
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = resumeFile;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        URL.revokeObjectURL(url);
+      } catch (error) {
+        const link = document.createElement("a");
+        link.href = encodedResumeFile;
+        link.download = resumeFile;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+      }
+    }
+
+    document.querySelectorAll("[data-download-resume]").forEach((button) => {
+      button.addEventListener("click", downloadResume);
+    });
+
+    async function copyResumeLink() {
+      const resumeUrl = getResumeShareUrl();
+      try {
+        await navigator.clipboard.writeText(resumeUrl);
+      } catch (error) {
+        const textArea = document.createElement("textarea");
+        textArea.value = resumeUrl;
+        textArea.setAttribute("readonly", "");
+        textArea.style.position = "fixed";
+        textArea.style.left = "-9999px";
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand("copy");
+        document.body.removeChild(textArea);
+      }
+
+      document.getElementById("copyStatus").textContent = "Public resume link copied.";
+    }
+
+    document.querySelector("[data-copy-resume-link]").addEventListener("click", copyResumeLink);
+
+    document.getElementById("emailForm").addEventListener("submit", (event) => {
+      event.preventDefault();
+      const to = document.getElementById("emailTo").value.trim();
+      const note = document.getElementById("emailNote").value.trim();
+      const resumeUrl = getResumeShareUrl();
+      const bodyLines = [
+        note || "Here is Maximilian Cozzone's resume:",
+        "",
+        resumeUrl
+      ];
+      const gmailUrl = new URL("https://mail.google.com/mail/");
+      gmailUrl.searchParams.set("view", "cm");
+      gmailUrl.searchParams.set("fs", "1");
+      gmailUrl.searchParams.set("to", to);
+      gmailUrl.searchParams.set("su", "Maximilian Cozzone Resume");
+      gmailUrl.searchParams.set("body", bodyLines.join("\n"));
+      window.open(gmailUrl.href, "_blank", "noopener");
+    });
+  </script>
+</body>
+</html>
