@@ -225,6 +225,19 @@
       margin-top: 4px;
     }
 
+    .user-actions {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+
+    .user-actions .btn {
+      min-height: 30px;
+      padding: 6px 8px;
+      font-size: 10px;
+    }
+
     .chat {
       display: grid;
       grid-template-rows: auto minmax(0, 1fr) auto;
@@ -335,7 +348,7 @@
 
       <div class="panel">
         <h2>Account</h2>
-        <div class="stack" id="authForm">
+        <form class="stack" id="authForm">
           <input id="email" type="email" autocomplete="email" placeholder="Email">
           <input id="password" type="password" autocomplete="current-password" placeholder="Password">
           <div class="account-card hidden" id="signedInCard">
@@ -343,18 +356,26 @@
             <span id="signedInEmail"></span>
           </div>
           <div class="row">
-            <button class="btn gold" id="signInBtn" type="button">Sign In</button>
+            <button class="btn gold" id="signInBtn" type="submit">Sign In</button>
             <button class="btn" id="signUpBtn" type="button">Sign Up</button>
+            <button class="btn" id="resetPasswordBtn" type="button">Reset Password</button>
             <button class="btn hidden" id="verifyEmailBtn" type="button">Send Verification Email</button>
             <button class="btn danger hidden" id="signOutBtn" type="button">Sign Out</button>
+            <button class="btn danger hidden" id="deleteAccountBtn" type="button">Delete My Account</button>
           </div>
           <div class="status" id="authStatus"></div>
-        </div>
+        </form>
       </div>
 
       <div class="panel hidden" id="adminPanel">
         <h2>Admin</h2>
         <div class="stack">
+          <input id="adminSearchEmail" type="email" placeholder="Find user by email">
+          <div class="row">
+            <button class="btn gold" id="openUserChatBtn" type="button">Open User Chat</button>
+            <button class="btn" id="refreshUsersBtn" type="button">Refresh Users</button>
+          </div>
+          <div class="conversation-list" id="userList"></div>
           <input id="testEmail" type="email" placeholder="Test user email">
           <input id="testPassword" type="password" placeholder="Temporary password">
           <button class="btn" id="createTestUserBtn" type="button">Create Test User</button>
@@ -396,7 +417,9 @@
       createUserWithEmailAndPassword,
       signInWithEmailAndPassword,
       signOut,
-      sendEmailVerification
+      sendEmailVerification,
+      sendPasswordResetEmail,
+      deleteUser
     } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
     import {
       getFirestore,
@@ -438,10 +461,13 @@
     const messageForm = document.getElementById("messageForm");
     const messageInput = document.getElementById("messageInput");
     const sendBtn = document.getElementById("sendBtn");
+    const authForm = document.getElementById("authForm");
     const signInBtn = document.getElementById("signInBtn");
     const signUpBtn = document.getElementById("signUpBtn");
+    const resetPasswordBtn = document.getElementById("resetPasswordBtn");
     const verifyEmailBtn = document.getElementById("verifyEmailBtn");
     const signOutBtn = document.getElementById("signOutBtn");
+    const deleteAccountBtn = document.getElementById("deleteAccountBtn");
     const emailInput = document.getElementById("email");
     const passwordInput = document.getElementById("password");
     const signedInCard = document.getElementById("signedInCard");
@@ -451,6 +477,10 @@
     const conversationList = document.getElementById("conversationList");
     const enableSoundBtn = document.getElementById("enableSoundBtn");
     const createTestUserBtn = document.getElementById("createTestUserBtn");
+    const adminSearchEmail = document.getElementById("adminSearchEmail");
+    const openUserChatBtn = document.getElementById("openUserChatBtn");
+    const refreshUsersBtn = document.getElementById("refreshUsersBtn");
+    const userList = document.getElementById("userList");
 
     let app;
     let auth;
@@ -488,8 +518,10 @@
       signedInCard.classList.toggle("hidden", !signedIn);
       signInBtn.classList.toggle("hidden", signedIn);
       signUpBtn.classList.toggle("hidden", signedIn);
+      resetPasswordBtn.classList.toggle("hidden", signedIn);
       verifyEmailBtn.classList.toggle("hidden", !signedIn || user?.emailVerified);
       signOutBtn.classList.toggle("hidden", !signedIn);
+      deleteAccountBtn.classList.toggle("hidden", !signedIn || isAdmin);
       signedInEmail.textContent = user?.email || "";
       if (!signedIn) {
         passwordInput.value = "";
@@ -572,7 +604,72 @@
 
       watchConversation(id);
       chatTitle.textContent = "Private conversation with Maximilian";
-      setStatus(chatStatus, "Connected. Messages here are private between this account and the admin account.");
+      setStatus(chatStatus, "Connected to max.cozzone1@gmail.com. Messages here are private between this account and Maximilian.");
+    }
+
+    async function openAdminUserConversation(email) {
+      const openUserConversation = httpsCallable(functions, "openUserConversation");
+      const result = await openUserConversation({ email });
+      const { uid, userEmail } = result.data;
+      chatTitle.textContent = `Conversation: ${userEmail}`;
+      watchConversation(uid);
+      setStatus(adminStatus, `Opened chat for ${userEmail}.`);
+    }
+
+    async function refreshAdminUsers() {
+      const listChatUsers = httpsCallable(functions, "listChatUsers");
+      const result = await listChatUsers({ search: adminSearchEmail.value.trim() });
+      userList.textContent = "";
+
+      result.data.users.forEach((user) => {
+        const item = document.createElement("div");
+        item.className = "conversation";
+
+        const title = document.createElement("strong");
+        title.textContent = user.email || user.uid;
+        const detail = document.createElement("span");
+        detail.textContent = `${user.disabled ? "Disabled" : "Active"} - ${user.emailVerified ? "verified" : "not verified"} - ${user.uid}`;
+
+        const actions = document.createElement("div");
+        actions.className = "user-actions";
+
+        const openButton = document.createElement("button");
+        openButton.className = "btn gold";
+        openButton.type = "button";
+        openButton.textContent = "Open Chat";
+        openButton.addEventListener("click", async () => {
+          adminSearchEmail.value = user.email || "";
+          await openAdminUserConversation(user.email);
+        });
+
+        const disableButton = document.createElement("button");
+        disableButton.className = "btn";
+        disableButton.type = "button";
+        disableButton.textContent = user.disabled ? "Enable" : "Disable";
+        disableButton.addEventListener("click", async () => {
+          const setUserDisabled = httpsCallable(functions, "setUserDisabled");
+          await setUserDisabled({ uid: user.uid, disabled: !user.disabled });
+          await refreshAdminUsers();
+        });
+
+        const deleteButton = document.createElement("button");
+        deleteButton.className = "btn danger";
+        deleteButton.type = "button";
+        deleteButton.textContent = "Delete";
+        deleteButton.addEventListener("click", async () => {
+          const confirmed = window.confirm(`Delete user ${user.email || user.uid}? This removes the Firebase Auth account, not old messages.`);
+          if (!confirmed) return;
+          const deleteChatUser = httpsCallable(functions, "deleteChatUser");
+          await deleteChatUser({ uid: user.uid });
+          await refreshAdminUsers();
+        });
+
+        actions.append(openButton, disableButton, deleteButton);
+        item.append(title, detail, actions);
+        userList.appendChild(item);
+      });
+
+      setStatus(adminStatus, `Loaded ${result.data.users.length} user account(s).`);
     }
 
     function watchConversationList() {
@@ -650,6 +747,9 @@
             chatTitle.textContent = "Admin inbox";
             setStatus(chatStatus, "Admin access should require MFA through Firebase Auth and Firestore rules.");
             watchConversationList();
+            refreshAdminUsers().catch((error) => {
+              setStatus(adminStatus, `User list blocked: ${error.message}. Deploy the chat Cloud Functions if this function is missing.`);
+            });
           } else {
             await ensureUserConversation(user);
             watchConversationList();
@@ -670,10 +770,11 @@
       playNotification();
     });
 
-    signInBtn.addEventListener("click", async () => {
+    authForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
       if (!isConfigured) return;
       try {
-        await signInWithEmailAndPassword(auth, document.getElementById("email").value.trim(), document.getElementById("password").value);
+        await signInWithEmailAndPassword(auth, emailInput.value.trim(), passwordInput.value);
       } catch (error) {
         setStatus(authStatus, error.message);
       }
@@ -682,7 +783,7 @@
     signUpBtn.addEventListener("click", async () => {
       if (!isConfigured) return;
       try {
-        const credential = await createUserWithEmailAndPassword(auth, document.getElementById("email").value.trim(), document.getElementById("password").value);
+        const credential = await createUserWithEmailAndPassword(auth, emailInput.value.trim(), passwordInput.value);
         await sendEmailVerification(credential.user);
         setStatus(authStatus, "Account created. Verify the email address before using it with a real person.");
       } catch (error) {
@@ -690,8 +791,35 @@
       }
     });
 
+    resetPasswordBtn.addEventListener("click", async () => {
+      if (!isConfigured) return;
+      const email = emailInput.value.trim();
+      if (!email) {
+        setStatus(authStatus, "Enter your email, then click Reset Password.");
+        return;
+      }
+      try {
+        await sendPasswordResetEmail(auth, email);
+        setStatus(authStatus, "Password reset email sent. Check Gmail, spam, and Promotions.");
+      } catch (error) {
+        setStatus(authStatus, `Password reset failed: ${error.message}`);
+      }
+    });
+
     signOutBtn.addEventListener("click", async () => {
       await signOut(auth);
+    });
+
+    deleteAccountBtn.addEventListener("click", async () => {
+      if (!auth?.currentUser || isAdmin) return;
+      const confirmed = window.confirm("Delete this chat account? You may need to sign in again first. This cannot delete messages already sent.");
+      if (!confirmed) return;
+      try {
+        await deleteUser(auth.currentUser);
+        setStatus(authStatus, "Account deleted.");
+      } catch (error) {
+        setStatus(authStatus, `Delete failed: ${error.message}. Sign out, sign back in, then try again.`);
+      }
     });
 
     verifyEmailBtn.addEventListener("click", async () => {
@@ -741,6 +869,24 @@
         setStatus(adminStatus, `Created test user: ${result.data.uid}`);
       } catch (error) {
         setStatus(adminStatus, `Create user failed: ${error.message}`);
+      }
+    });
+
+    openUserChatBtn.addEventListener("click", async () => {
+      if (!isConfigured || !functions || !isAdmin) return;
+      try {
+        await openAdminUserConversation(adminSearchEmail.value.trim());
+      } catch (error) {
+        setStatus(adminStatus, `Open user chat failed: ${error.message}`);
+      }
+    });
+
+    refreshUsersBtn.addEventListener("click", async () => {
+      if (!isConfigured || !functions || !isAdmin) return;
+      try {
+        await refreshAdminUsers();
+      } catch (error) {
+        setStatus(adminStatus, `Refresh users failed: ${error.message}`);
       }
     });
   </script>
