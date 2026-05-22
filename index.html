@@ -404,6 +404,116 @@
       animation: fadeUp 0.65s 0.54s ease forwards;
     }
 
+    .hero-action-table {
+      width: min(720px, 100%);
+      display: grid;
+      gap: 8px;
+      opacity: 0;
+      animation: fadeUp 0.65s 0.54s ease forwards;
+    }
+
+    .hero-action-row {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(165px, 0.7fr) minmax(0, 1fr);
+      gap: 12px;
+      align-items: center;
+      min-height: 74px;
+      padding: 12px 14px 12px 18px;
+      border: 1px solid rgba(185, 57, 73, 0.34);
+      background:
+        linear-gradient(90deg, rgba(185, 57, 73, 0.2), transparent 34%),
+        rgba(9, 12, 18, 0.74);
+      box-shadow: inset 3px 0 0 rgba(217, 75, 88, 0.92);
+      transition: border-color 0.18s, background 0.18s, transform 0.18s;
+    }
+
+    .hero-action-row::before,
+    .hero-action-row::after {
+      content: "";
+      position: absolute;
+      top: 9px;
+      bottom: 9px;
+      width: 1px;
+      background: rgba(217, 75, 88, 0.42);
+    }
+
+    .hero-action-row::before {
+      left: 7px;
+    }
+
+    .hero-action-row::after {
+      left: 11px;
+      opacity: 0.55;
+    }
+
+    .hero-action-row:hover,
+    .hero-action-row:focus-within {
+      transform: translateY(-1px);
+      border-color: rgba(235, 95, 106, 0.66);
+      background:
+        linear-gradient(90deg, rgba(185, 57, 73, 0.3), transparent 42%),
+        rgba(15, 20, 29, 0.9);
+    }
+
+    .action-context {
+      min-width: 0;
+    }
+
+    .action-kicker,
+    .action-preview {
+      font-family: "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+      text-transform: uppercase;
+    }
+
+    .action-kicker {
+      display: block;
+      margin-bottom: 4px;
+      color: #ef8b94;
+      font-size: 10px;
+      letter-spacing: 2px;
+    }
+
+    .action-title {
+      display: block;
+      color: #fff;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 21px;
+      line-height: 1.1;
+    }
+
+    .action-preview {
+      display: block;
+      max-height: 0;
+      overflow: hidden;
+      color: var(--muted);
+      font-size: 10px;
+      letter-spacing: 1.2px;
+      line-height: 1.6;
+      transition: max-height 0.22s ease, margin-top 0.22s ease;
+    }
+
+    .hero-action-row:hover .action-preview,
+    .hero-action-row:focus-within .action-preview {
+      max-height: 38px;
+      margin-top: 7px;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .hero-action-table .btn {
+      min-height: 36px;
+      padding: 9px 12px;
+      font-size: 10px;
+      letter-spacing: 1px;
+      white-space: nowrap;
+    }
+
     .btn,
     .ecard-link,
     .filter-tag {
@@ -1294,6 +1404,14 @@
       .document-actions {
         justify-content: flex-start;
       }
+
+      .hero-action-row {
+        grid-template-columns: 1fr;
+      }
+
+      .action-buttons {
+        justify-content: flex-start;
+      }
     }
 
     @media (max-width: 700px) {
@@ -1348,6 +1466,10 @@
       .hero {
         min-height: auto;
         padding: 64px 0 58px;
+      }
+
+      .hero-action-table .btn {
+        flex: 1 1 150px;
       }
 
       .hero-right {
@@ -1431,13 +1553,52 @@
           </h1>
           <span class="hero-subtitle">Practical work, written clearly</span>
           <p class="hero-desc">I build practical security and IT labs around Linux, networking, Python, and documentation. My focus is simple: working projects, readable notes, and technical evidence that can be reviewed.</p>
-          <div class="hero-actions">
-            <a class="btn btn-gold" href="#projects">Project Lineup</a>
-            <a class="btn" href="resume.html" target="_blank" rel="noopener">Open Resume</a>
-            <a class="btn btn-download-gold" href="resume-pdf.html" target="_blank" rel="noopener">PDF Options</a>
-            <a class="btn" href="cover-letter.html" target="_blank" rel="noopener">Open Cover Letter</a>
-            <a class="btn btn-download-gold" href="cover-letter-pdf.html" target="_blank" rel="noopener">Cover PDF Options</a>
-            <a class="btn" href="https://github.com/MaxCIoan" target="_blank" rel="noopener">GitHub Profile</a>
+          <div class="hero-action-table" aria-label="Primary portfolio actions">
+            <div class="hero-action-row">
+              <div class="action-context">
+                <span class="action-kicker">Start here</span>
+                <span class="action-title">Project Lineup</span>
+                <span class="action-preview">Jumps to the public project cards and review path.</span>
+              </div>
+              <div class="action-buttons">
+                <a class="btn btn-gold" href="#projects">View Projects</a>
+              </div>
+            </div>
+
+            <div class="hero-action-row">
+              <div class="action-context">
+                <span class="action-kicker">Application document</span>
+                <span class="action-title">Resume</span>
+                <span class="action-preview">Open the HTML resume or use PDF preview, download, copy link, and Gmail draft options.</span>
+              </div>
+              <div class="action-buttons">
+                <a class="btn" href="resume.html" target="_blank" rel="noopener">Open HTML</a>
+                <a class="btn btn-download-gold" href="resume-pdf.html" target="_blank" rel="noopener">PDF Options</a>
+              </div>
+            </div>
+
+            <div class="hero-action-row">
+              <div class="action-context">
+                <span class="action-kicker">Application document</span>
+                <span class="action-title">Cover Letter</span>
+                <span class="action-preview">Open the HTML letter or use PDF preview, download, copy link, and Gmail draft options.</span>
+              </div>
+              <div class="action-buttons">
+                <a class="btn" href="cover-letter.html" target="_blank" rel="noopener">Open HTML</a>
+                <a class="btn btn-download-gold" href="cover-letter-pdf.html" target="_blank" rel="noopener">PDF Options</a>
+              </div>
+            </div>
+
+            <div class="hero-action-row">
+              <div class="action-context">
+                <span class="action-kicker">Source code</span>
+                <span class="action-title">GitHub Profile</span>
+                <span class="action-preview">Opens the public GitHub account with repositories and project history.</span>
+              </div>
+              <div class="action-buttons">
+                <a class="btn" href="https://github.com/MaxCIoan" target="_blank" rel="noopener">Open GitHub</a>
+              </div>
+            </div>
           </div>
         </div>
       </div>
