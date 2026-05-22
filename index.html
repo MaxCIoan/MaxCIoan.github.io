@@ -534,6 +534,125 @@
       transform: none;
     }
 
+    .link-preview {
+      position: fixed;
+      right: 24px;
+      bottom: 24px;
+      z-index: 1100;
+      width: min(420px, calc(100vw - 32px));
+      height: 280px;
+      min-width: 260px;
+      min-height: 180px;
+      max-width: calc(100vw - 32px);
+      max-height: calc(100vh - 96px);
+      border: 1px solid rgba(235, 95, 106, 0.62);
+      border-radius: 4px;
+      background: rgba(5, 7, 11, 0.96);
+      box-shadow:
+        0 22px 70px rgba(0, 0, 0, 0.42),
+        0 0 0 1px rgba(216, 173, 85, 0.12),
+        inset 4px 0 0 rgba(217, 75, 88, 0.9);
+      overflow: hidden;
+      resize: both;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(8px);
+      transition: opacity 0.16s ease, transform 0.16s ease;
+    }
+
+    .link-preview.visible {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    .link-preview-top {
+      min-height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 8px 10px 8px 14px;
+      border-bottom: 1px solid rgba(235, 95, 106, 0.28);
+      background: linear-gradient(90deg, rgba(185, 57, 73, 0.24), rgba(9, 12, 18, 0.96));
+      color: #fff;
+      font-family: "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    .link-preview-title {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .link-preview-open {
+      color: var(--gold2);
+      white-space: nowrap;
+    }
+
+    .link-preview-body {
+      position: relative;
+      height: calc(100% - 38px);
+      cursor: pointer;
+      background: #06080c;
+    }
+
+    .link-preview-frame {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+      background: #fff;
+      pointer-events: none;
+      transform-origin: 0 0;
+    }
+
+    .link-preview-fallback {
+      height: 100%;
+      display: grid;
+      align-content: center;
+      gap: 10px;
+      padding: 24px;
+      background:
+        linear-gradient(135deg, rgba(185, 57, 73, 0.24), transparent 42%),
+        radial-gradient(circle at 80% 20%, rgba(216, 173, 85, 0.15), transparent 38%),
+        #070a10;
+    }
+
+    .link-preview-fallback strong {
+      color: #fff;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 24px;
+      line-height: 1.1;
+    }
+
+    .link-preview-fallback span {
+      color: var(--muted);
+      font-family: "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+      font-size: 11px;
+      letter-spacing: 1px;
+      line-height: 1.7;
+      text-transform: uppercase;
+    }
+
+    .link-preview-hint {
+      position: absolute;
+      right: 8px;
+      bottom: 6px;
+      color: rgba(255, 255, 255, 0.52);
+      font-family: "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+      font-size: 9px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      pointer-events: none;
+    }
+
     .btn,
     .ecard-link,
     .filter-tag {
@@ -1502,6 +1621,15 @@
         flex: 1 1 150px;
       }
 
+      .link-preview {
+        left: 12px;
+        right: 12px;
+        bottom: 12px;
+        width: auto;
+        height: 240px;
+        min-width: 0;
+      }
+
       .hero-right {
         top: 60%;
         right: 50%;
@@ -1591,7 +1719,7 @@
                 <span class="action-preview">Jumps to the public project cards and review path.</span>
               </div>
               <div class="action-buttons">
-                <a class="btn btn-gold" href="#projects">View Projects</a>
+                <a class="btn btn-gold" href="#projects" data-preview-title="Project Lineup" data-preview-url="index.html#projects" data-preview-kind="internal">View Projects</a>
               </div>
             </div>
 
@@ -1602,8 +1730,8 @@
                 <span class="action-preview">Open the HTML resume or use PDF preview, download, copy link, and Gmail draft options.</span>
               </div>
               <div class="action-buttons">
-                <a class="btn" href="resume.html" target="_blank" rel="noopener">Open HTML</a>
-                <a class="btn btn-download-gold" href="resume-pdf.html" target="_blank" rel="noopener">PDF Options</a>
+                <a class="btn" href="resume.html" target="_blank" rel="noopener" data-preview-title="Resume HTML" data-preview-url="resume.html" data-preview-kind="internal">Open HTML</a>
+                <a class="btn btn-download-gold" href="resume-pdf.html" target="_blank" rel="noopener" data-preview-title="Resume PDF Options" data-preview-url="resume-pdf.html" data-preview-kind="internal">PDF Options</a>
               </div>
             </div>
 
@@ -1614,8 +1742,8 @@
                 <span class="action-preview">Open the HTML letter or use PDF preview, download, copy link, and Gmail draft options.</span>
               </div>
               <div class="action-buttons">
-                <a class="btn" href="cover-letter.html" target="_blank" rel="noopener">Open HTML</a>
-                <a class="btn btn-download-gold" href="cover-letter-pdf.html" target="_blank" rel="noopener">PDF Options</a>
+                <a class="btn" href="cover-letter.html" target="_blank" rel="noopener" data-preview-title="Cover Letter HTML" data-preview-url="cover-letter.html" data-preview-kind="internal">Open HTML</a>
+                <a class="btn btn-download-gold" href="cover-letter-pdf.html" target="_blank" rel="noopener" data-preview-title="Cover Letter PDF Options" data-preview-url="cover-letter-pdf.html" data-preview-kind="internal">PDF Options</a>
               </div>
             </div>
 
@@ -1626,7 +1754,7 @@
                 <span class="action-preview">Opens the public GitHub account with repositories and project history.</span>
               </div>
               <div class="action-buttons">
-                <a class="btn" href="https://github.com/MaxCIoan" target="_blank" rel="noopener">Open GitHub</a>
+                <a class="btn" href="https://github.com/MaxCIoan" target="_blank" rel="noopener" data-preview-title="GitHub Profile" data-preview-url="https://github.com/MaxCIoan" data-preview-kind="external">Open GitHub</a>
               </div>
             </div>
           </div>
@@ -1838,6 +1966,17 @@
     <div class="section-inner">&copy; 2026 Maximilian Cozzone. GitHub: <a href="https://github.com/MaxCIoan" target="_blank" rel="noopener">github.com/MaxCIoan</a></div>
   </footer>
 
+  <aside class="link-preview" id="linkPreview" aria-label="Link preview">
+    <div class="link-preview-top" id="linkPreviewTop">
+      <span class="link-preview-title" id="linkPreviewTitle">Preview</span>
+      <span class="link-preview-open">Click to open</span>
+    </div>
+    <div class="link-preview-body" id="linkPreviewBody">
+      <iframe class="link-preview-frame" id="linkPreviewFrame" title="Hovered link preview" loading="lazy"></iframe>
+      <div class="link-preview-hint">Drag corner to resize</div>
+    </div>
+  </aside>
+
   <button class="top-btn" id="topBtn" type="button" aria-label="Back to top">^</button>
 
   <script>
@@ -1848,6 +1987,12 @@
     const scrollProgress = document.getElementById("scrollProgress");
     const topButton = document.getElementById("topBtn");
     const internalNavLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+    const linkPreview = document.getElementById("linkPreview");
+    const linkPreviewTitle = document.getElementById("linkPreviewTitle");
+    const linkPreviewBody = document.getElementById("linkPreviewBody");
+    const linkPreviewFrame = document.getElementById("linkPreviewFrame");
+    let previewTargetUrl = "";
+    let previewHideTimer = null;
 
     if (navBurger && navLinks) {
       navBurger.addEventListener("click", () => {
@@ -1887,6 +2032,73 @@
     if (topButton) {
       topButton.addEventListener("click", () => {
         window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
+      });
+    }
+
+    function resolvePreviewUrl(rawUrl) {
+      if (!rawUrl) return "";
+      if (rawUrl.startsWith("#")) {
+        return `${window.location.pathname.split("/").pop() || "index.html"}${rawUrl}`;
+      }
+
+      return rawUrl;
+    }
+
+    function showLinkPreview(link) {
+      if (!linkPreview || !linkPreviewFrame || !linkPreviewBody || !linkPreviewTitle) return;
+
+      clearTimeout(previewHideTimer);
+      const previewUrl = resolvePreviewUrl(link.dataset.previewUrl || link.getAttribute("href"));
+      const title = link.dataset.previewTitle || link.textContent.trim() || "Preview";
+      const kind = link.dataset.previewKind || "internal";
+
+      previewTargetUrl = link.getAttribute("href") || previewUrl;
+      linkPreviewTitle.textContent = title;
+      linkPreviewBody.querySelector(".link-preview-fallback")?.remove();
+
+      if (kind === "external") {
+        linkPreviewFrame.hidden = true;
+        const fallback = document.createElement("div");
+        fallback.className = "link-preview-fallback";
+        fallback.innerHTML = `<strong>${title}</strong><span>External site preview is protected by the destination. Click this box to open it.</span>`;
+        linkPreviewBody.prepend(fallback);
+      } else {
+        linkPreviewFrame.hidden = false;
+        if (linkPreviewFrame.getAttribute("src") !== previewUrl) {
+          linkPreviewFrame.setAttribute("src", previewUrl);
+        }
+      }
+
+      linkPreview.classList.add("visible");
+    }
+
+    function schedulePreviewHide() {
+      clearTimeout(previewHideTimer);
+      previewHideTimer = setTimeout(() => {
+        linkPreview?.classList.remove("visible");
+      }, 180);
+    }
+
+    document.querySelectorAll(".hero-action-table a[data-preview-url]").forEach((link) => {
+      link.addEventListener("mouseenter", () => showLinkPreview(link));
+      link.addEventListener("focus", () => showLinkPreview(link));
+      link.addEventListener("mouseleave", schedulePreviewHide);
+      link.addEventListener("blur", schedulePreviewHide);
+    });
+
+    if (linkPreview) {
+      linkPreview.addEventListener("mouseenter", () => clearTimeout(previewHideTimer));
+      linkPreview.addEventListener("mouseleave", schedulePreviewHide);
+      linkPreview.addEventListener("click", () => {
+        if (!previewTargetUrl) return;
+
+        if (previewTargetUrl.startsWith("#")) {
+          document.querySelector(previewTargetUrl)?.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth" });
+          linkPreview.classList.remove("visible");
+          return;
+        }
+
+        window.open(previewTargetUrl, "_blank", "noopener");
       });
     }
 
