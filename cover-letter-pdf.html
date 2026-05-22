@@ -3,11 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Maximilian Cozzone - Resume PDF</title>
+  <title>Maximilian Cozzone - Cover Letter PDF</title>
   <style>
     :root {
       --bg: #090b10;
-      --surface: #111720;
       --surface2: #17202c;
       --text: #f7f2e8;
       --muted: #aeb8c5;
@@ -62,11 +61,13 @@
       font-size: 13px;
     }
 
-    .actions {
+    .actions,
+    .email-inner {
       display: flex;
       gap: 10px;
       flex-wrap: wrap;
       justify-content: flex-end;
+      align-items: center;
     }
 
     .btn {
@@ -120,19 +121,6 @@
       transition: left 0.46s ease;
     }
 
-    .btn-gold:hover,
-    .btn-gold:focus {
-      color: #050403;
-      border-color: #ffe6a0;
-      background:
-        linear-gradient(115deg, transparent 0 24%, rgba(255, 255, 255, 0.62) 36%, transparent 48%),
-        linear-gradient(180deg, #ffeaa0 0%, #c9973c 48%, #70480f 100%);
-      box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.78),
-        inset 0 -1px 0 rgba(40, 25, 4, 0.45),
-        0 14px 34px rgba(216, 173, 85, 0.28);
-    }
-
     .btn-gold:hover::before,
     .btn-gold:focus::before {
       left: 118%;
@@ -147,10 +135,7 @@
       width: min(1180px, calc(100% - 32px));
       margin: 0 auto;
       padding: 12px 0;
-      display: grid;
-      grid-template-columns: minmax(180px, 280px) minmax(180px, 1fr) auto auto;
-      gap: 10px;
-      align-items: center;
+      justify-content: flex-start;
     }
 
     .copy-status {
@@ -162,7 +147,7 @@
     }
 
     input {
-      width: 100%;
+      min-width: min(280px, 100%);
       min-height: 42px;
       border: 1px solid var(--border);
       border-radius: 3px;
@@ -170,6 +155,7 @@
       color: var(--text);
       background: rgba(255, 255, 255, 0.06);
       font: inherit;
+      flex: 1 1 220px;
     }
 
     input:focus {
@@ -187,7 +173,6 @@
       box-shadow: 0 24px 80px rgba(0, 0, 0, 0.28);
     }
 
-    .viewer iframe,
     .viewer object {
       width: 100%;
       height: 100%;
@@ -202,8 +187,7 @@
     }
 
     @media (max-width: 760px) {
-      .topbar-inner,
-      .email-inner {
+      .topbar-inner {
         grid-template-columns: 1fr;
       }
 
@@ -213,7 +197,7 @@
 
       .viewer {
         width: 100%;
-        height: calc(100vh - 248px);
+        height: calc(100vh - 276px);
         min-height: 420px;
         margin: 0;
         border-left: 0;
@@ -226,13 +210,13 @@
   <header class="topbar">
     <div class="topbar-inner">
       <div>
-        <h1>Resume PDF</h1>
-        <div class="sub">Preview, download to device, or open a Gmail draft with the resume link.</div>
+        <h1>Cover Letter PDF</h1>
+        <div class="sub">Preview, download to device, or open a Gmail draft with the cover letter link.</div>
       </div>
-      <div class="actions" aria-label="Resume PDF actions">
-        <button class="btn btn-gold" type="button" data-download-resume>Download PDF</button>
-        <a class="btn" href="resume.html" target="_blank" rel="noopener">HTML Resume</a>
-        <a class="btn" href="Maximilian%20Cozzone%20-%20Resume.pdf" target="_blank" rel="noopener">Open PDF</a>
+      <div class="actions" aria-label="Cover letter PDF actions">
+        <button class="btn btn-gold" type="button" data-download-document>Download PDF</button>
+        <a class="btn" href="cover-letter.html" target="_blank" rel="noopener">HTML Letter</a>
+        <a class="btn" href="Maximilian%20Cozzone%20-%20Cover%20Letter.pdf" target="_blank" rel="noopener">Open PDF</a>
         <a class="btn" href="index.html">Back to Portfolio</a>
       </div>
     </div>
@@ -243,67 +227,67 @@
       <input id="emailTo" name="emailTo" type="email" placeholder="Recipient email">
       <input id="emailNote" name="emailNote" type="text" placeholder="Optional message">
       <button class="btn" type="submit">Open Gmail Draft</button>
-      <button class="btn" type="button" data-copy-resume-link>Copy Link</button>
+      <button class="btn" type="button" data-copy-document-link>Copy Link</button>
     </div>
     <div class="copy-status" id="copyStatus" aria-live="polite"></div>
   </form>
 
-  <main class="viewer" aria-label="Resume PDF preview">
-    <object data="Maximilian%20Cozzone%20-%20Resume.pdf" type="application/pdf">
+  <main class="viewer" aria-label="Cover letter PDF preview">
+    <object data="Maximilian%20Cozzone%20-%20Cover%20Letter.pdf" type="application/pdf">
       <div class="fallback">
         PDF preview is not available in this browser.
-        <button class="btn btn-gold" type="button" data-download-resume>Download PDF</button>
+        <button class="btn btn-gold" type="button" data-download-document>Download PDF</button>
       </div>
     </object>
   </main>
 
   <script>
-    const resumeFile = "Maximilian Cozzone - Resume.pdf";
-    const encodedResumeFile = "Maximilian%20Cozzone%20-%20Resume.pdf";
-    const publicResumeUrl = "https://MaxCIoan.github.io/Maximilian%20Cozzone%20-%20Resume.pdf";
+    const documentFile = "Maximilian Cozzone - Cover Letter.pdf";
+    const encodedDocumentFile = "Maximilian%20Cozzone%20-%20Cover%20Letter.pdf";
+    const publicDocumentUrl = "https://MaxCIoan.github.io/Maximilian%20Cozzone%20-%20Cover%20Letter.pdf";
 
-    function getResumeShareUrl() {
+    function getDocumentShareUrl() {
       if (window.location.protocol === "http:" || window.location.protocol === "https:") {
-        return new URL(encodedResumeFile, window.location.href).href;
+        return new URL(encodedDocumentFile, window.location.href).href;
       }
 
-      return publicResumeUrl;
+      return publicDocumentUrl;
     }
 
-    async function downloadResume() {
+    async function downloadDocument() {
       try {
-        const response = await fetch(encodedResumeFile);
+        const response = await fetch(encodedDocumentFile);
         if (!response.ok) throw new Error("PDF fetch failed");
         const blob = await response.blob();
         const url = URL.createObjectURL(blob);
         const link = document.createElement("a");
         link.href = url;
-        link.download = resumeFile;
+        link.download = documentFile;
         document.body.appendChild(link);
         link.click();
         link.remove();
         URL.revokeObjectURL(url);
       } catch (error) {
         const link = document.createElement("a");
-        link.href = encodedResumeFile;
-        link.download = resumeFile;
+        link.href = encodedDocumentFile;
+        link.download = documentFile;
         document.body.appendChild(link);
         link.click();
         link.remove();
       }
     }
 
-    document.querySelectorAll("[data-download-resume]").forEach((button) => {
-      button.addEventListener("click", downloadResume);
+    document.querySelectorAll("[data-download-document]").forEach((button) => {
+      button.addEventListener("click", downloadDocument);
     });
 
-    async function copyResumeLink() {
-      const resumeUrl = getResumeShareUrl();
+    async function copyDocumentLink() {
+      const documentUrl = getDocumentShareUrl();
       try {
-        await navigator.clipboard.writeText(resumeUrl);
+        await navigator.clipboard.writeText(documentUrl);
       } catch (error) {
         const textArea = document.createElement("textarea");
-        textArea.value = resumeUrl;
+        textArea.value = documentUrl;
         textArea.setAttribute("readonly", "");
         textArea.style.position = "fixed";
         textArea.style.left = "-9999px";
@@ -313,26 +297,26 @@
         document.body.removeChild(textArea);
       }
 
-      document.getElementById("copyStatus").textContent = "Public resume link copied.";
+      document.getElementById("copyStatus").textContent = "Public cover letter link copied.";
     }
 
-    document.querySelector("[data-copy-resume-link]").addEventListener("click", copyResumeLink);
+    document.querySelector("[data-copy-document-link]").addEventListener("click", copyDocumentLink);
 
     document.getElementById("emailForm").addEventListener("submit", (event) => {
       event.preventDefault();
       const to = document.getElementById("emailTo").value.trim();
       const note = document.getElementById("emailNote").value.trim();
-      const resumeUrl = getResumeShareUrl();
+      const documentUrl = getDocumentShareUrl();
       const bodyLines = [
-        note || "Here is Maximilian Cozzone's resume:",
+        note || "Here is Maximilian Cozzone's cover letter:",
         "",
-        resumeUrl
+        documentUrl
       ];
       const gmailUrl = new URL("https://mail.google.com/mail/");
       gmailUrl.searchParams.set("view", "cm");
       gmailUrl.searchParams.set("fs", "1");
       gmailUrl.searchParams.set("to", to);
-      gmailUrl.searchParams.set("su", "Maximilian Cozzone Resume");
+      gmailUrl.searchParams.set("su", "Maximilian Cozzone Cover Letter");
       gmailUrl.searchParams.set("body", bodyLines.join("\n"));
       window.open(gmailUrl.href, "_blank", "noopener");
     });

@@ -26,6 +26,90 @@
       line-height: 1.55;
     }
 
+    .document-actions {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 12px;
+      border-bottom: 1px solid rgba(11, 31, 51, 0.12);
+      background: rgba(232, 237, 242, 0.92);
+      backdrop-filter: blur(12px);
+    }
+
+    .document-action {
+      position: relative;
+      overflow: hidden;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 40px;
+      padding: 10px 15px;
+      border: 1px solid rgba(11, 31, 51, 0.18);
+      border-radius: 3px;
+      color: var(--navy);
+      background: #fff;
+      font-family: "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform 0.18s, background 0.18s, border-color 0.18s;
+    }
+
+    .document-action:hover,
+    .document-action:focus {
+      transform: translateY(-1px);
+      border-color: rgba(185, 133, 34, 0.64);
+      background: #fff8e7;
+    }
+
+    .document-action-gold {
+      color: #090703;
+      border-color: rgba(255, 222, 138, 0.9);
+      background:
+        linear-gradient(115deg, transparent 0 28%, rgba(255, 255, 255, 0.58) 38%, transparent 49%),
+        linear-gradient(180deg, #fff1a8 0%, #d8ad55 46%, #9b6b1f 100%);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.72),
+        inset 0 -1px 0 rgba(58, 37, 5, 0.36);
+    }
+
+    .document-action-gold::before {
+      content: "";
+      position: absolute;
+      inset: -120% auto -120% -42%;
+      width: 34%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.72), transparent);
+      transform: rotate(18deg);
+      transition: left 0.46s ease;
+    }
+
+    .document-action-gold:hover,
+    .document-action-gold:focus {
+      background:
+        linear-gradient(115deg, transparent 0 24%, rgba(255, 255, 255, 0.62) 36%, transparent 48%),
+        linear-gradient(180deg, #ffeaa0 0%, #c9973c 48%, #70480f 100%);
+    }
+
+    .document-action-gold:hover::before,
+    .document-action-gold:focus::before {
+      left: 118%;
+    }
+
+    .copy-status {
+      width: 100%;
+      min-height: 14px;
+      color: var(--navy);
+      font-size: 12px;
+      text-align: center;
+    }
+
     .page {
       width: 210mm;
       min-height: 297mm;
@@ -140,6 +224,10 @@
     }
 
     @media print {
+      .document-actions {
+        display: none;
+      }
+
       body {
         background: #fff;
       }
@@ -154,6 +242,14 @@
   </style>
 </head>
 <body>
+  <div class="document-actions" aria-label="Cover letter actions">
+    <button class="document-action document-action-gold" type="button" data-download-document>Download PDF</button>
+    <a class="document-action" href="cover-letter-pdf.html" target="_blank" rel="noopener">Preview PDF</a>
+    <a class="document-action" id="gmailDocumentLink" href="https://mail.google.com/mail/?view=cm&fs=1&su=Maximilian%20Cozzone%20Cover%20Letter" target="_blank" rel="noopener">Open Gmail Draft</a>
+    <button class="document-action" type="button" data-copy-document-link>Copy Link</button>
+    <a class="document-action" href="index.html">Back to Portfolio</a>
+    <div class="copy-status" id="copyStatus" aria-live="polite"></div>
+  </div>
   <main class="page">
     <div class="topbar"></div>
     <header class="header">
@@ -188,5 +284,72 @@
       </div>
     </section>
   </main>
+  <script>
+    const documentFile = "Maximilian Cozzone - Cover Letter.pdf";
+    const encodedDocumentFile = "Maximilian%20Cozzone%20-%20Cover%20Letter.pdf";
+    const publicDocumentUrl = "https://MaxCIoan.github.io/Maximilian%20Cozzone%20-%20Cover%20Letter.pdf";
+
+    function getDocumentShareUrl() {
+      if (window.location.protocol === "http:" || window.location.protocol === "https:") {
+        return new URL(encodedDocumentFile, window.location.href).href;
+      }
+
+      return publicDocumentUrl;
+    }
+
+    async function downloadDocument() {
+      try {
+        const response = await fetch(encodedDocumentFile);
+        if (!response.ok) throw new Error("PDF fetch failed");
+        const blob = await response.blob();
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = documentFile;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        URL.revokeObjectURL(url);
+      } catch (error) {
+        const link = document.createElement("a");
+        link.href = encodedDocumentFile;
+        link.download = documentFile;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+      }
+    }
+
+    document.querySelector("[data-download-document]").addEventListener("click", downloadDocument);
+
+    async function copyDocumentLink() {
+      const documentUrl = getDocumentShareUrl();
+      try {
+        await navigator.clipboard.writeText(documentUrl);
+      } catch (error) {
+        const textArea = document.createElement("textarea");
+        textArea.value = documentUrl;
+        textArea.setAttribute("readonly", "");
+        textArea.style.position = "fixed";
+        textArea.style.left = "-9999px";
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand("copy");
+        document.body.removeChild(textArea);
+      }
+
+      document.getElementById("copyStatus").textContent = "Public cover letter link copied.";
+    }
+
+    document.querySelector("[data-copy-document-link]").addEventListener("click", copyDocumentLink);
+
+    const documentUrl = getDocumentShareUrl();
+    const gmailUrl = new URL("https://mail.google.com/mail/");
+    gmailUrl.searchParams.set("view", "cm");
+    gmailUrl.searchParams.set("fs", "1");
+    gmailUrl.searchParams.set("su", "Maximilian Cozzone Cover Letter");
+    gmailUrl.searchParams.set("body", `Here is Maximilian Cozzone's cover letter:\n\n${documentUrl}`);
+    document.getElementById("gmailDocumentLink").href = gmailUrl.href;
+  </script>
 </body>
 </html>
