@@ -162,6 +162,32 @@
       line-height: 1.5;
     }
 
+    .account-card {
+      border: 1px solid rgba(216, 173, 85, 0.3);
+      border-radius: 5px;
+      padding: 10px;
+      background: rgba(216, 173, 85, 0.08);
+    }
+
+    .account-card strong,
+    .account-card span {
+      display: block;
+      overflow-wrap: anywhere;
+    }
+
+    .account-card strong {
+      margin-bottom: 4px;
+      color: var(--gold);
+      font-size: 11px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .account-card span {
+      color: var(--text);
+      font-size: 13px;
+    }
+
     .conversation-list {
       display: grid;
       gap: 8px;
@@ -312,6 +338,10 @@
         <div class="stack" id="authForm">
           <input id="email" type="email" autocomplete="email" placeholder="Email">
           <input id="password" type="password" autocomplete="current-password" placeholder="Password">
+          <div class="account-card hidden" id="signedInCard">
+            <strong>Signed in</strong>
+            <span id="signedInEmail"></span>
+          </div>
           <div class="row">
             <button class="btn gold" id="signInBtn" type="button">Sign In</button>
             <button class="btn" id="signUpBtn" type="button">Sign Up</button>
@@ -371,6 +401,7 @@
       getFirestore,
       collection,
       doc,
+      getDoc,
       setDoc,
       addDoc,
       serverTimestamp,
@@ -409,6 +440,10 @@
     const signInBtn = document.getElementById("signInBtn");
     const signUpBtn = document.getElementById("signUpBtn");
     const signOutBtn = document.getElementById("signOutBtn");
+    const emailInput = document.getElementById("email");
+    const passwordInput = document.getElementById("password");
+    const signedInCard = document.getElementById("signedInCard");
+    const signedInEmail = document.getElementById("signedInEmail");
     const adminPanel = document.getElementById("adminPanel");
     const conversationsPanel = document.getElementById("conversationsPanel");
     const conversationList = document.getElementById("conversationList");
@@ -442,6 +477,20 @@
     function enableComposer(enabled) {
       messageInput.disabled = !enabled;
       sendBtn.disabled = !enabled;
+    }
+
+    function setSignedInUi(user) {
+      const signedIn = Boolean(user);
+      emailInput.classList.toggle("hidden", signedIn);
+      passwordInput.classList.toggle("hidden", signedIn);
+      signedInCard.classList.toggle("hidden", !signedIn);
+      signInBtn.classList.toggle("hidden", signedIn);
+      signUpBtn.classList.toggle("hidden", signedIn);
+      signOutBtn.classList.toggle("hidden", !signedIn);
+      signedInEmail.textContent = user?.email || "";
+      if (!signedIn) {
+        passwordInput.value = "";
+      }
     }
 
     function playNotification() {
@@ -501,14 +550,26 @@
 
     async function ensureUserConversation(user) {
       const id = getConversationIdForUser(user.uid);
-      await setDoc(doc(db, "conversations", id), {
-        userUid: user.uid,
-        userEmail: user.email,
-        participants: [user.uid],
-        updatedAt: serverTimestamp()
-      }, { merge: true });
+      const conversationRef = doc(db, "conversations", id);
+      const existingConversation = await getDoc(conversationRef);
+
+      if (existingConversation.exists()) {
+        await setDoc(conversationRef, {
+          updatedAt: serverTimestamp()
+        }, { merge: true });
+      } else {
+        await setDoc(conversationRef, {
+          userUid: user.uid,
+          userEmail: user.email,
+          participants: [user.uid],
+          createdAt: serverTimestamp(),
+          updatedAt: serverTimestamp()
+        });
+      }
+
       watchConversation(id);
       chatTitle.textContent = "Private conversation with Maximilian";
+      setStatus(chatStatus, "Connected. Messages here are private between this account and the admin account.");
     }
 
     function watchConversationList() {
@@ -564,33 +625,37 @@
 
         if (!user) {
           roleBadge.textContent = "Signed out";
-          signInBtn.classList.remove("hidden");
-          signUpBtn.classList.remove("hidden");
-          signOutBtn.classList.add("hidden");
+          setSignedInUi(null);
           adminPanel.classList.add("hidden");
           conversationsPanel.classList.add("hidden");
           chatTitle.textContent = "Sign in to start a private message";
+          setStatus(chatStatus, "Only you and the admin account can read your conversation.");
           setStatus(authStatus, "");
           return;
         }
 
-        const token = await user.getIdTokenResult(true);
-        isAdmin = token.claims.admin === true;
-        roleBadge.textContent = isAdmin ? "Admin" : "User";
-        signInBtn.classList.add("hidden");
-        signUpBtn.classList.add("hidden");
-        signOutBtn.classList.remove("hidden");
-        conversationsPanel.classList.remove("hidden");
-        adminPanel.classList.toggle("hidden", !isAdmin);
-        setStatus(authStatus, `Signed in as ${user.email}`);
+        try {
+          const token = await user.getIdTokenResult(true);
+          isAdmin = token.claims.admin === true;
+          roleBadge.textContent = isAdmin ? "Admin" : "User";
+          setSignedInUi(user);
+          conversationsPanel.classList.remove("hidden");
+          adminPanel.classList.toggle("hidden", !isAdmin);
+          setStatus(authStatus, "");
 
-        if (isAdmin) {
-          chatTitle.textContent = "Admin inbox";
-          setStatus(chatStatus, "Admin access should require MFA through Firebase Auth and Firestore rules.");
-          watchConversationList();
-        } else {
-          await ensureUserConversation(user);
-          watchConversationList();
+          if (isAdmin) {
+            chatTitle.textContent = "Admin inbox";
+            setStatus(chatStatus, "Admin access should require MFA through Firebase Auth and Firestore rules.");
+            watchConversationList();
+          } else {
+            await ensureUserConversation(user);
+            watchConversationList();
+          }
+        } catch (error) {
+          enableComposer(false);
+          setSignedInUi(user);
+          chatTitle.textContent = "Chat setup blocked";
+          setStatus(chatStatus, `Firebase blocked the chat setup: ${error.message}. If this says permission-denied, publish the Firestore rules for this project.`);
         }
       });
     }
@@ -633,18 +698,23 @@
       if (!text) return;
       messageInput.value = "";
 
-      await addDoc(collection(db, "conversations", activeConversationId, "messages"), {
-        text,
-        senderId: currentUser.uid,
-        senderEmail: currentUser.email,
-        senderName: isAdmin ? "Maximilian" : currentUser.email,
-        createdAt: serverTimestamp()
-      });
+      try {
+        await addDoc(collection(db, "conversations", activeConversationId, "messages"), {
+          text,
+          senderId: currentUser.uid,
+          senderEmail: currentUser.email,
+          senderName: isAdmin ? "Maximilian" : currentUser.email,
+          createdAt: serverTimestamp()
+        });
 
-      await setDoc(doc(db, "conversations", activeConversationId), {
-        lastMessage: text.slice(0, 160),
-        updatedAt: serverTimestamp()
-      }, { merge: true });
+        await setDoc(doc(db, "conversations", activeConversationId), {
+          lastMessage: text.slice(0, 160),
+          updatedAt: serverTimestamp()
+        }, { merge: true });
+      } catch (error) {
+        messageInput.value = text;
+        setStatus(chatStatus, `Message failed: ${error.message}`);
+      }
     });
 
     createTestUserBtn.addEventListener("click", async () => {
