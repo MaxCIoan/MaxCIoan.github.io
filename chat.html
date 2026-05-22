@@ -1,0 +1,664 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Maximilian Cozzone - Private Chat</title>
+  <style>
+    :root {
+      --bg: #07090f;
+      --panel: #111722;
+      --panel2: #151d2b;
+      --line: rgba(255, 255, 255, 0.09);
+      --text: #eef2f7;
+      --muted: #9ba7b8;
+      --gold: #d8ad55;
+      --red: #d94b58;
+      --green: #62b982;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 18% 10%, rgba(216, 173, 85, 0.14), transparent 30%),
+        linear-gradient(135deg, #07090f, #101724 52%, #07090f);
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    a { color: var(--gold); text-decoration: none; }
+
+    .shell {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 320px minmax(0, 1fr);
+    }
+
+    .side {
+      border-right: 1px solid var(--line);
+      background: rgba(9, 13, 20, 0.92);
+      padding: 18px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 25px;
+      letter-spacing: 0;
+    }
+
+    .badge {
+      border: 1px solid rgba(216, 173, 85, 0.35);
+      color: var(--gold);
+      padding: 5px 8px;
+      border-radius: 4px;
+      font: 700 10px "Cascadia Mono", Consolas, monospace;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: rgba(17, 23, 34, 0.84);
+      padding: 14px;
+      margin-bottom: 12px;
+    }
+
+    .panel h2 {
+      margin: 0 0 10px;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 1.4px;
+      color: var(--muted);
+    }
+
+    input,
+    textarea,
+    button {
+      font: inherit;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      min-height: 42px;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      padding: 10px 12px;
+      color: var(--text);
+      background: #0b1018;
+      outline: none;
+    }
+
+    textarea {
+      min-height: 48px;
+      max-height: 150px;
+      resize: vertical;
+    }
+
+    input:focus,
+    textarea:focus {
+      border-color: rgba(216, 173, 85, 0.62);
+    }
+
+    .stack {
+      display: grid;
+      gap: 9px;
+    }
+
+    .row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      min-height: 38px;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      padding: 9px 12px;
+      color: var(--text);
+      background: #141c2a;
+      cursor: pointer;
+      font: 700 11px "Cascadia Mono", Consolas, monospace;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .btn:hover,
+    .btn:focus {
+      border-color: rgba(216, 173, 85, 0.62);
+      background: #1b2637;
+    }
+
+    .btn.gold {
+      color: #08090d;
+      border-color: var(--gold);
+      background: linear-gradient(180deg, #ffe6a0, var(--gold));
+    }
+
+    .btn.danger {
+      border-color: rgba(217, 75, 88, 0.64);
+      color: #ffdfe2;
+      background: rgba(217, 75, 88, 0.12);
+    }
+
+    .status {
+      min-height: 18px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .conversation-list {
+      display: grid;
+      gap: 8px;
+      max-height: 42vh;
+      overflow: auto;
+    }
+
+    .conversation {
+      width: 100%;
+      text-align: left;
+      border: 1px solid var(--line);
+      border-radius: 5px;
+      padding: 10px;
+      color: var(--text);
+      background: #0c121c;
+      cursor: pointer;
+    }
+
+    .conversation.active {
+      border-color: rgba(216, 173, 85, 0.7);
+      box-shadow: inset 3px 0 0 var(--gold);
+    }
+
+    .conversation strong,
+    .conversation span {
+      display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .conversation span {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 4px;
+    }
+
+    .chat {
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr) auto;
+      min-width: 0;
+      min-height: 100vh;
+    }
+
+    .chat-top {
+      border-bottom: 1px solid var(--line);
+      background: rgba(17, 23, 34, 0.88);
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .chat-top h2 {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    .messages {
+      min-height: 0;
+      padding: 20px;
+      overflow: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .message {
+      max-width: min(680px, 86%);
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      padding: 10px 12px;
+      background: #111a27;
+      align-self: flex-start;
+    }
+
+    .message.mine {
+      align-self: flex-end;
+      border-color: rgba(216, 173, 85, 0.32);
+      background: #1b2430;
+    }
+
+    .message .meta {
+      margin-bottom: 5px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .message .text {
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      line-height: 1.45;
+    }
+
+    .composer {
+      border-top: 1px solid var(--line);
+      background: rgba(17, 23, 34, 0.9);
+      padding: 14px 20px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: end;
+    }
+
+    .setup-warning {
+      border-color: rgba(217, 75, 88, 0.55);
+      background: rgba(217, 75, 88, 0.09);
+    }
+
+    .hidden { display: none !important; }
+
+    @media (max-width: 860px) {
+      .shell {
+        grid-template-columns: 1fr;
+      }
+
+      .side {
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .chat {
+        min-height: 72vh;
+      }
+
+      .composer {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="side">
+      <div class="brand">
+        <h1>Private Chat</h1>
+        <span class="badge" id="roleBadge">Signed out</span>
+      </div>
+
+      <div class="panel setup-warning" id="setupPanel">
+        <h2>Setup Required</h2>
+        <div class="status">Add your Firebase web config in this file, deploy Firestore rules, enable Auth with MFA for the admin account, then this page becomes live.</div>
+      </div>
+
+      <div class="panel">
+        <h2>Account</h2>
+        <div class="stack" id="authForm">
+          <input id="email" type="email" autocomplete="email" placeholder="Email">
+          <input id="password" type="password" autocomplete="current-password" placeholder="Password">
+          <div class="row">
+            <button class="btn gold" id="signInBtn" type="button">Sign In</button>
+            <button class="btn" id="signUpBtn" type="button">Sign Up</button>
+            <button class="btn danger hidden" id="signOutBtn" type="button">Sign Out</button>
+          </div>
+          <div class="status" id="authStatus"></div>
+        </div>
+      </div>
+
+      <div class="panel hidden" id="adminPanel">
+        <h2>Admin</h2>
+        <div class="stack">
+          <input id="testEmail" type="email" placeholder="Test user email">
+          <input id="testPassword" type="password" placeholder="Temporary password">
+          <button class="btn" id="createTestUserBtn" type="button">Create Test User</button>
+          <div class="status" id="adminStatus">Admin actions require the Cloud Function scaffold and an MFA admin login.</div>
+        </div>
+      </div>
+
+      <div class="panel hidden" id="conversationsPanel">
+        <h2>Conversations</h2>
+        <div class="conversation-list" id="conversationList"></div>
+      </div>
+
+      <a class="btn" href="index.html">Back to Portfolio</a>
+    </aside>
+
+    <main class="chat">
+      <header class="chat-top">
+        <div>
+          <h2 id="chatTitle">Sign in to start a private message</h2>
+          <div class="status" id="chatStatus">Only you and the admin account can read your conversation.</div>
+        </div>
+        <button class="btn" id="enableSoundBtn" type="button">Enable Sound</button>
+      </header>
+
+      <section class="messages" id="messages" aria-live="polite"></section>
+
+      <form class="composer" id="messageForm">
+        <textarea id="messageInput" maxlength="2000" placeholder="Write a private message..." disabled></textarea>
+        <button class="btn gold" id="sendBtn" type="submit" disabled>Send</button>
+      </form>
+    </main>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+    import {
+      getAuth,
+      onAuthStateChanged,
+      createUserWithEmailAndPassword,
+      signInWithEmailAndPassword,
+      signOut,
+      sendEmailVerification
+    } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+    import {
+      getFirestore,
+      collection,
+      doc,
+      setDoc,
+      addDoc,
+      serverTimestamp,
+      query,
+      where,
+      orderBy,
+      limit,
+      onSnapshot
+    } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+    import {
+      getFunctions,
+      httpsCallable
+    } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-functions.js";
+
+    const firebaseConfig = {
+      apiKey: "PASTE_FIREBASE_API_KEY",
+      authDomain: "PASTE_PROJECT_ID.firebaseapp.com",
+      projectId: "PASTE_PROJECT_ID",
+      storageBucket: "PASTE_PROJECT_ID.appspot.com",
+      messagingSenderId: "PASTE_SENDER_ID",
+      appId: "PASTE_APP_ID"
+    };
+
+    const isConfigured = !firebaseConfig.apiKey.startsWith("PASTE_");
+    const setupPanel = document.getElementById("setupPanel");
+    const roleBadge = document.getElementById("roleBadge");
+    const authStatus = document.getElementById("authStatus");
+    const adminStatus = document.getElementById("adminStatus");
+    const chatStatus = document.getElementById("chatStatus");
+    const chatTitle = document.getElementById("chatTitle");
+    const messagesEl = document.getElementById("messages");
+    const messageForm = document.getElementById("messageForm");
+    const messageInput = document.getElementById("messageInput");
+    const sendBtn = document.getElementById("sendBtn");
+    const signInBtn = document.getElementById("signInBtn");
+    const signUpBtn = document.getElementById("signUpBtn");
+    const signOutBtn = document.getElementById("signOutBtn");
+    const adminPanel = document.getElementById("adminPanel");
+    const conversationsPanel = document.getElementById("conversationsPanel");
+    const conversationList = document.getElementById("conversationList");
+    const enableSoundBtn = document.getElementById("enableSoundBtn");
+    const createTestUserBtn = document.getElementById("createTestUserBtn");
+
+    let app;
+    let auth;
+    let db;
+    let functions;
+    let currentUser = null;
+    let isAdmin = false;
+    let activeConversationId = "";
+    let unsubscribeMessages = null;
+    let unsubscribeConversations = null;
+    let audioContext = null;
+    let seenMessageIds = new Set();
+
+    function setStatus(element, text) {
+      element.textContent = text;
+    }
+
+    function safeText(parent, className, value) {
+      const el = document.createElement("div");
+      el.className = className;
+      el.textContent = value || "";
+      parent.appendChild(el);
+      return el;
+    }
+
+    function enableComposer(enabled) {
+      messageInput.disabled = !enabled;
+      sendBtn.disabled = !enabled;
+    }
+
+    function playNotification() {
+      if (!audioContext) return;
+      const oscillator = audioContext.createOscillator();
+      const gain = audioContext.createGain();
+      oscillator.type = "sine";
+      oscillator.frequency.setValueAtTime(740, audioContext.currentTime);
+      gain.gain.setValueAtTime(0.0001, audioContext.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.12, audioContext.currentTime + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.0001, audioContext.currentTime + 0.22);
+      oscillator.connect(gain);
+      gain.connect(audioContext.destination);
+      oscillator.start();
+      oscillator.stop(audioContext.currentTime + 0.24);
+    }
+
+    function getConversationIdForUser(uid) {
+      return uid;
+    }
+
+    function renderMessage(docSnap) {
+      const data = docSnap.data();
+      const item = document.createElement("article");
+      item.className = data.senderId === currentUser?.uid ? "message mine" : "message";
+      const when = data.createdAt?.toDate ? data.createdAt.toDate().toLocaleString() : "Sending";
+      safeText(item, "meta", `${data.senderName || "User"} - ${when}`);
+      safeText(item, "text", data.text || "");
+      return item;
+    }
+
+    function watchConversation(conversationId) {
+      activeConversationId = conversationId;
+      enableComposer(Boolean(conversationId));
+      seenMessageIds = new Set();
+
+      if (unsubscribeMessages) unsubscribeMessages();
+
+      const messagesRef = collection(db, "conversations", conversationId, "messages");
+      const messagesQuery = query(messagesRef, orderBy("createdAt", "asc"), limit(200));
+
+      unsubscribeMessages = onSnapshot(messagesQuery, (snapshot) => {
+        messagesEl.textContent = "";
+        snapshot.forEach((docSnap) => {
+          messagesEl.appendChild(renderMessage(docSnap));
+          const data = docSnap.data();
+          if (!seenMessageIds.has(docSnap.id) && data.senderId !== currentUser?.uid) {
+            playNotification();
+          }
+          seenMessageIds.add(docSnap.id);
+        });
+        messagesEl.scrollTop = messagesEl.scrollHeight;
+      }, (error) => {
+        setStatus(chatStatus, `Message read blocked: ${error.message}`);
+      });
+    }
+
+    async function ensureUserConversation(user) {
+      const id = getConversationIdForUser(user.uid);
+      await setDoc(doc(db, "conversations", id), {
+        userUid: user.uid,
+        userEmail: user.email,
+        participants: [user.uid],
+        updatedAt: serverTimestamp()
+      }, { merge: true });
+      watchConversation(id);
+      chatTitle.textContent = "Private conversation with Maximilian";
+    }
+
+    function watchConversationList() {
+      if (unsubscribeConversations) unsubscribeConversations();
+      conversationList.textContent = "";
+
+      const conversationsRef = collection(db, "conversations");
+      const conversationsQuery = isAdmin
+        ? query(conversationsRef, orderBy("updatedAt", "desc"), limit(50))
+        : query(conversationsRef, where("participants", "array-contains", currentUser.uid), limit(10));
+
+      unsubscribeConversations = onSnapshot(conversationsQuery, (snapshot) => {
+        conversationList.textContent = "";
+        snapshot.forEach((docSnap) => {
+          const data = docSnap.data();
+          const button = document.createElement("button");
+          button.className = `conversation${docSnap.id === activeConversationId ? " active" : ""}`;
+          button.type = "button";
+          const title = document.createElement("strong");
+          title.textContent = isAdmin ? (data.userEmail || docSnap.id) : "Your private chat";
+          const detail = document.createElement("span");
+          detail.textContent = data.lastMessage || "No messages yet";
+          button.append(title, detail);
+          button.addEventListener("click", () => {
+            chatTitle.textContent = isAdmin ? `Conversation: ${data.userEmail || docSnap.id}` : "Private conversation with Maximilian";
+            watchConversation(docSnap.id);
+          });
+          conversationList.appendChild(button);
+        });
+      }, (error) => {
+        setStatus(chatStatus, `Conversation list blocked: ${error.message}`);
+      });
+    }
+
+    if (!isConfigured) {
+      setStatus(authStatus, "Firebase config is missing. This page is safe but not live yet.");
+      enableComposer(false);
+    } else {
+      setupPanel.classList.add("hidden");
+      app = initializeApp(firebaseConfig);
+      auth = getAuth(app);
+      db = getFirestore(app);
+      functions = getFunctions(app);
+
+      onAuthStateChanged(auth, async (user) => {
+        currentUser = user;
+        isAdmin = false;
+        enableComposer(false);
+        messagesEl.textContent = "";
+
+        if (unsubscribeMessages) unsubscribeMessages();
+        if (unsubscribeConversations) unsubscribeConversations();
+
+        if (!user) {
+          roleBadge.textContent = "Signed out";
+          signInBtn.classList.remove("hidden");
+          signUpBtn.classList.remove("hidden");
+          signOutBtn.classList.add("hidden");
+          adminPanel.classList.add("hidden");
+          conversationsPanel.classList.add("hidden");
+          chatTitle.textContent = "Sign in to start a private message";
+          setStatus(authStatus, "");
+          return;
+        }
+
+        const token = await user.getIdTokenResult(true);
+        isAdmin = token.claims.admin === true;
+        roleBadge.textContent = isAdmin ? "Admin" : "User";
+        signInBtn.classList.add("hidden");
+        signUpBtn.classList.add("hidden");
+        signOutBtn.classList.remove("hidden");
+        conversationsPanel.classList.remove("hidden");
+        adminPanel.classList.toggle("hidden", !isAdmin);
+        setStatus(authStatus, `Signed in as ${user.email}`);
+
+        if (isAdmin) {
+          chatTitle.textContent = "Admin inbox";
+          setStatus(chatStatus, "Admin access should require MFA through Firebase Auth and Firestore rules.");
+          watchConversationList();
+        } else {
+          await ensureUserConversation(user);
+          watchConversationList();
+        }
+      });
+    }
+
+    enableSoundBtn.addEventListener("click", async () => {
+      audioContext = audioContext || new AudioContext();
+      if (audioContext.state === "suspended") await audioContext.resume();
+      enableSoundBtn.textContent = "Sound Enabled";
+      playNotification();
+    });
+
+    signInBtn.addEventListener("click", async () => {
+      if (!isConfigured) return;
+      try {
+        await signInWithEmailAndPassword(auth, document.getElementById("email").value.trim(), document.getElementById("password").value);
+      } catch (error) {
+        setStatus(authStatus, error.message);
+      }
+    });
+
+    signUpBtn.addEventListener("click", async () => {
+      if (!isConfigured) return;
+      try {
+        const credential = await createUserWithEmailAndPassword(auth, document.getElementById("email").value.trim(), document.getElementById("password").value);
+        await sendEmailVerification(credential.user);
+        setStatus(authStatus, "Account created. Verify the email address before using it with a real person.");
+      } catch (error) {
+        setStatus(authStatus, error.message);
+      }
+    });
+
+    signOutBtn.addEventListener("click", async () => {
+      await signOut(auth);
+    });
+
+    messageForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      if (!currentUser || !activeConversationId) return;
+      const text = messageInput.value.trim();
+      if (!text) return;
+      messageInput.value = "";
+
+      await addDoc(collection(db, "conversations", activeConversationId, "messages"), {
+        text,
+        senderId: currentUser.uid,
+        senderEmail: currentUser.email,
+        senderName: isAdmin ? "Maximilian" : currentUser.email,
+        createdAt: serverTimestamp()
+      });
+
+      await setDoc(doc(db, "conversations", activeConversationId), {
+        lastMessage: text.slice(0, 160),
+        updatedAt: serverTimestamp()
+      }, { merge: true });
+    });
+
+    createTestUserBtn.addEventListener("click", async () => {
+      if (!isConfigured || !functions) return;
+      try {
+        const createTestUser = httpsCallable(functions, "createTestUser");
+        const result = await createTestUser({
+          email: document.getElementById("testEmail").value.trim(),
+          password: document.getElementById("testPassword").value
+        });
+        setStatus(adminStatus, `Created test user: ${result.data.uid}`);
+      } catch (error) {
+        setStatus(adminStatus, `Create user failed: ${error.message}`);
+      }
+    });
+  </script>
+</body>
+</html>
