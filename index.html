@@ -404,6 +404,67 @@
       animation: fadeUp 0.65s 0.42s ease forwards;
     }
 
+    .tech-origin-card {
+      width: min(720px, 100%);
+      display: grid;
+      grid-template-columns: 132px minmax(0, 1fr);
+      gap: 18px;
+      align-items: stretch;
+      margin: 0 0 18px;
+      padding: 14px;
+      border: 1px solid var(--gold-bdr);
+      background:
+        linear-gradient(135deg, rgba(216, 173, 85, 0.12), rgba(9, 12, 18, 0.92)),
+        rgba(9, 12, 18, 0.82);
+      opacity: 0;
+      animation: fadeUp 0.65s 0.49s ease forwards;
+    }
+
+    .tech-origin-poster {
+      width: 100%;
+      height: 100%;
+      min-height: 188px;
+      object-fit: cover;
+      border: 1px solid rgba(240, 207, 134, 0.28);
+      filter: saturate(0.95) contrast(1.06);
+    }
+
+    .tech-origin-copy {
+      display: grid;
+      align-content: center;
+      gap: 9px;
+      min-width: 0;
+    }
+
+    .tech-origin-kicker {
+      color: var(--gold2);
+      font-family: "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .tech-origin-title {
+      color: #fff;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(22px, 3vw, 34px);
+      line-height: 1;
+    }
+
+    .tech-origin-text,
+    .tech-origin-note {
+      color: var(--muted);
+      font-size: 13.5px;
+      line-height: 1.55;
+    }
+
+    .tech-origin-note {
+      padding-top: 9px;
+      border-top: 1px solid rgba(216, 173, 85, 0.18);
+      color: #c9d0d8;
+    }
+
     .hero-actions {
       display: flex;
       gap: 12px;
@@ -1662,6 +1723,25 @@
         letter-spacing: 4px;
       }
 
+      .tech-origin-card {
+        grid-template-columns: 92px minmax(0, 1fr);
+        gap: 12px;
+        padding: 12px;
+      }
+
+      .tech-origin-poster {
+        min-height: 146px;
+      }
+
+      .tech-origin-title {
+        font-size: 22px;
+      }
+
+      .tech-origin-text,
+      .tech-origin-note {
+        font-size: 12.5px;
+      }
+
       .hero-scroll {
         display: none;
       }
@@ -1726,7 +1806,16 @@
             <span class="l3">Portfolio</span>
           </h1>
           <span class="hero-subtitle">Practical work, written clearly</span>
-          <p class="hero-desc">I build practical security and IT labs around Linux, networking, Python, and documentation. My focus is simple: working projects, readable notes, and technical evidence that can be reviewed.</p>
+          <p class="hero-desc">Technology hooked me early. At seven, online games and PC games made me curious about what was happening behind the screen; building my first gaming PC made that curiosity physical, where every upgrade proved how much speed, power, and precision matter.</p>
+          <article class="tech-origin-card" aria-label="Technology inspiration">
+            <img class="tech-origin-poster" src="assets/who-am-i-no-system-is-safe-poster.jpg" alt="Who Am I - No System Is Safe movie poster" loading="lazy">
+            <div class="tech-origin-copy">
+              <span class="tech-origin-kicker">Favorite Tech Film</span>
+              <h2 class="tech-origin-title">Who Am I: No System Is Safe</h2>
+              <p class="tech-origin-text">That curiosity moved into Raspberry Pi experiments, Linux installs, CTF practice, and hands-on security labs where I could break, rebuild, document, and understand systems instead of only using them.</p>
+              <p class="tech-origin-note">I like the message because "no system is safe" is not just a movie line. However well defended a target is, there is always a path to test, harden, or expose it, which is why discipline, curiosity, and constant improvement matter.</p>
+            </div>
+          </article>
           <div class="hero-action-table" aria-label="Primary portfolio actions">
             <div class="hero-action-row">
               <div class="action-context">
