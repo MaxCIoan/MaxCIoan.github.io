@@ -1360,11 +1360,36 @@
       font-size: 13px;
     }
 
+    .linkedin-profile-card {
+      width: min(100%, 360px);
+      min-height: 76px;
+      margin-top: 18px;
+      overflow: hidden;
+    }
+
+    .linkedin-profile-card .LI-profile-badge {
+      max-width: 100%;
+    }
+
+    .linkedin-profile-card .badge-base__link {
+      color: var(--gold2);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
     footer {
       padding: 24px 0 34px;
       border-top: 1px solid var(--border);
       color: var(--muted2);
       font-size: 14px;
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
     }
 
     .top-btn {
@@ -2057,6 +2082,9 @@
             <h2>Talk through the work.</h2>
             <p>Best review path: HIDS, port scanner, Packet Tracer, Active Directory, framework notes, then documents.</p>
             <div class="email-line">Email: <span>Max.cozzone1@gmail.com</span> <span class="copy-status" aria-live="polite"></span></div>
+            <div class="linkedin-profile-card" aria-label="LinkedIn profile">
+              <div class="badge-base LI-profile-badge" data-locale="en_US" data-size="medium" data-theme="dark" data-type="HORIZONTAL" data-vanity="maximilian-cozzone-88758a165" data-version="v1"><a class="badge-base__link LI-simple-link" href="https://be.linkedin.com/in/maximilian-cozzone-88758a165?trk=profile-badge">Maximilian Cozzone</a></div>
+            </div>
           </div>
           <div class="hero-actions">
             <a class="btn btn-gold" href="chat.html">Private Chat</a>
@@ -2069,7 +2097,10 @@
   </main>
 
   <footer>
-    <div class="section-inner">&copy; 2026 Maximilian Cozzone. GitHub: <a href="https://github.com/MaxCIoan" target="_blank" rel="noopener">github.com/MaxCIoan</a></div>
+    <div class="section-inner footer-inner">
+      <span>&copy; 2026 Maximilian Cozzone. GitHub: <a href="https://github.com/MaxCIoan" target="_blank" rel="noopener">github.com/MaxCIoan</a></span>
+      <a class="btn btn-gold" href="chat.html">Private Portal</a>
+    </div>
   </footer>
 
   <aside class="link-preview" id="linkPreview" aria-label="Link preview">
@@ -2084,7 +2115,7 @@
   </aside>
 
   <button class="top-btn" id="topBtn" type="button" aria-label="Back to top">^</button>
-
+  <script src="https://platform.linkedin.com/badges/js/profile.js" async defer type="text/javascript"></script>
   <script>
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const coarsePointer = window.matchMedia("(pointer: coarse)").matches;
